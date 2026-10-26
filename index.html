@@ -74,14 +74,6 @@
       --icon-stroke: 2;
       --icon-size: 30px;
 
-      /* Заглушки скриншотов */
-      --ph-1a: #FFE3EE; --ph-1b: #FFC7DC;
-      --ph-2a: #FFF3CF; --ph-2b: #FFE08A;
-      --ph-3a: #DDF6FF; --ph-3b: #A9E6FA;
-      --ph-4a: #E4FBEF; --ph-4b: #B5F0D3;
-      --ph-5a: #EEE8FF; --ph-5b: #D2C5FB;
-      --ph-6a: #FFEAD9; --ph-6b: #FFC9A3;
-
       /* Типографика */
       --font-head: "Rubik", "Trebuchet MS", system-ui, sans-serif;
       --font-body: "Nunito", "Segoe UI", system-ui, sans-serif;
@@ -352,28 +344,12 @@
     .shot {
       position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in;
       border-radius: var(--radius); overflow: hidden; background: var(--c-border); box-shadow: var(--shadow);
-      aspect-ratio: 16 / 9; transition: transform 0.2s ease, box-shadow 0.2s ease;
+      aspect-ratio: 1684 / 654; transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .shot:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 4px; border-radius: var(--radius); }
+    /* Пропорция карточки совпадает со скриншотами, поэтому cover ничего не обрезает */
     .shot img { width: 100%; height: 100%; object-fit: cover; }
-    /* Пока у <img> нет src (скриншотов нет) — картинка скрыта, видна цветная заглушка */
-    .shot img:not([src]) { display: none; }
-    .shot img[src] ~ .shot__ph { display: none; }
-    .shot__ph {
-      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-      padding: 1rem; text-align: center; color: var(--c-text);
-      background: linear-gradient(135deg, var(--ph-a), var(--ph-b));
-    }
-    .shots li:nth-child(1) .shot__ph { --ph-a: var(--ph-1a); --ph-b: var(--ph-1b); }
-    .shots li:nth-child(2) .shot__ph { --ph-a: var(--ph-2a); --ph-b: var(--ph-2b); }
-    .shots li:nth-child(3) .shot__ph { --ph-a: var(--ph-3a); --ph-b: var(--ph-3b); }
-    .shots li:nth-child(4) .shot__ph { --ph-a: var(--ph-4a); --ph-b: var(--ph-4b); }
-    .shots li:nth-child(5) .shot__ph { --ph-a: var(--ph-5a); --ph-b: var(--ph-5b); }
-    .shots li:nth-child(6) .shot__ph { --ph-a: var(--ph-6a); --ph-b: var(--ph-6b); }
-    .shot__ph-icon { font-size: clamp(2rem, 1.6rem + 1.5vw, 2.8rem); line-height: 1; }
-    .shot__ph-title { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-h3); }
-    .shot__ph-note { font-size: var(--fs-small); font-weight: 700; color: var(--c-muted); }
 
     /* Лайтбокс */
     .lightbox {
@@ -386,7 +362,6 @@
     .lightbox__figure { margin: 0; }
     .lightbox__media { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--c-surface); }
     .lightbox__media img { width: 100%; height: auto; max-height: 78vh; object-fit: contain; }
-    .lightbox__media .shot__ph { position: relative; aspect-ratio: 16 / 9; }
     .lightbox__caption { margin-top: 12px; text-align: center; font-weight: 700; color: var(--c-white); }
     .lightbox__close {
       position: absolute; top: -56px; right: 0; width: 48px; height: 48px;
@@ -713,70 +688,20 @@
           <p class="section__lead">Нажми на картинку, чтобы увеличить.</p>
         </div>
 
-        <!--
-          ЗАМЕНИТЬ: скриншоты. Положите файлы в папку images/ и у каждого <img> переименуйте
-          атрибут data-src в src — цветная заглушка исчезнет сама.
-          (Пока src нет, браузер не пытается грузить несуществующие файлы, и в консоли нет ошибок 404.)
-        -->
         <ul class="shots">
           <li class="reveal">
-            <button class="shot" type="button" data-caption="Двор после вечеринки">
-              <img data-src="images/screen1.webp" alt="Скриншот игры: двор после вечеринки" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🏡</span>
-                <span class="shot__ph-title">Двор</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
+            <button class="shot" type="button" data-caption="Гараж после вечеринки">
+              <img src="images/garage.jpg" alt="Скриншот игры: гараж после вечеринки — пол усыпан стаканчиками и конфетти, в центре голубая машина" width="1684" height="654" loading="lazy">
             </button>
           </li>
           <li class="reveal">
-            <button class="shot" type="button" data-caption="Беспорядок на кухне">
-              <img data-src="images/screen2.webp" alt="Скриншот игры: беспорядок на кухне" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🍰</span>
-                <span class="shot__ph-title">Кухня</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
+            <button class="shot" type="button" data-caption="Кухня-гостиная">
+              <img src="images/kitchen.jpg" alt="Скриншот игры: кухня-гостиная после праздника — мусор на полу, обеденный стол с розовым тортом и кухонный гарнитур у стены" width="1684" height="654" loading="lazy">
             </button>
           </li>
           <li class="reveal">
-            <button class="shot" type="button" data-caption="Уборка у бассейна">
-              <img data-src="images/screen3.webp" alt="Скриншот игры: уборка у бассейна" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🏊</span>
-                <span class="shot__ph-title">Бассейн</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
-            </button>
-          </li>
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Уборка в саду">
-              <img data-src="images/screen4.webp" alt="Скриншот игры: уборка в саду" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🌷</span>
-                <span class="shot__ph-title">Сад</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
-            </button>
-          </li>
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Тёмный подвал">
-              <img data-src="images/screen5.webp" alt="Скриншот игры: тёмный подвал" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🔦</span>
-                <span class="shot__ph-title">Подвал</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
-            </button>
-          </li>
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Беспорядок в гараже">
-              <img data-src="images/screen6.webp" alt="Скриншот игры: беспорядок в гараже" width="1280" height="720" loading="lazy">
-              <span class="shot__ph" aria-hidden="true">
-                <span class="shot__ph-icon">🚗</span>
-                <span class="shot__ph-title">Гараж</span>
-                <span class="shot__ph-note">Скриншот скоро будет</span>
-              </span>
+            <button class="shot" type="button" data-caption="Прокачка инструментов">
+              <img src="images/upgrades.jpg" alt="Скриншот игры: окно прокачки инструментов — улучшения перчатки, метлы и воздуходувки с ценами и кнопкой покупки" width="1684" height="654" loading="lazy">
             </button>
           </li>
         </ul>
@@ -919,20 +844,12 @@
         media.replaceChildren();
 
         var img = trigger.querySelector('img');
-        if (img && img.getAttribute('src')) {
-          var big = new Image();
-          big.src = img.currentSrc || img.src;
-          big.alt = img.alt;
-          big.width = img.width;
-          big.height = img.height;
-          media.appendChild(big);
-        } else {
-          var original = trigger.querySelector('.shot__ph');
-          var ph = original.cloneNode(true);
-          ph.removeAttribute('aria-hidden');
-          ph.style.backgroundImage = getComputedStyle(original).backgroundImage;
-          media.appendChild(ph);
-        }
+        var big = new Image();
+        big.src = img.currentSrc || img.src;
+        big.alt = img.alt;
+        big.width = img.naturalWidth || img.getAttribute('width');
+        big.height = img.naturalHeight || img.getAttribute('height');
+        media.appendChild(big);
         caption.textContent = trigger.dataset.caption || '';
 
         if (hasModal) dialog.showModal(); else dialog.setAttribute('open', '');
