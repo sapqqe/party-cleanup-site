@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Party Cleanup! — убери дом до прихода родителей | Игра в Roblox</title>
+  <meta name="description" content="Party Cleanup! — весёлый симулятор уборки в Roblox. Вечеринка вышла из-под контроля: убери 9 локаций, прокачай инструменты и найди улики про сбежавшую пиньяту Pinyo. До 4 игроков!">
+
+  <!-- ЗАМЕНИТЬ: og:url — адрес сайта после публикации -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="#">
+  <meta property="og:title" content="Party Cleanup! — игра в Roblox">
+  <meta property="og:description" content="Вечеринка удалась. Теперь убери всё, пока родители не вернулись! Кооператив до 4 игроков.">
+  <!-- ЗАМЕНИТЬ: обложка для соцсетей (рекомендуемый размер 1200×630) -->
+  <meta property="og:image" content="images/og-cover.png">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Party Cleanup! — игра в Roblox">
+  <meta name="twitter:description" content="Вечеринка удалась. Теперь убери всё, пока родители не вернулись!">
+  <!-- ЗАМЕНИТЬ: обложка для соцсетей -->
+  <meta name="twitter:image" content="images/og-cover.png">
+
+  <meta name="theme-color" content="#C2185B">
+
+  <!-- Фавикон: пиньята-ослик в inline SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='44' width='6' height='14' rx='2' fill='%23FF8A3D'/%3E%3Crect x='36' y='44' width='6' height='14' rx='2' fill='%2336C5F0'/%3E%3Crect x='8' y='26' width='40' height='22' rx='10' fill='%23FF4D8D'/%3E%3Crect x='8' y='33' width='40' height='7' fill='%23FFD23F'/%3E%3Cpath d='M38 30 L44 14 L52 16 L48 32 Z' fill='%23FF4D8D'/%3E%3Crect x='40' y='8' width='20' height='13' rx='6' fill='%23FF4D8D'/%3E%3Cellipse cx='45' cy='5' rx='2.5' ry='5' fill='%23FF4D8D'/%3E%3Ccircle cx='49' cy='13' r='3' fill='%23fff'/%3E%3Ccircle cx='49' cy='13' r='1.3' fill='%232A1A31'/%3E%3Ccircle cx='6' cy='10' r='3' fill='%23FFD23F'/%3E%3Crect x='20' y='6' width='5' height='5' fill='%2336C5F0' transform='rotate(20 22 8)'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fredoka и Baloo 2 не поддерживают кириллицу, поэтому для заголовков — округлый Rubik -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== 1. Переменные ========== */
+    :root {
+      /* Основные цвета */
+      --c-primary: #C2185B;
+      --c-primary-hover: #A3134C;
+      --c-primary-dark: #7E0E3A;
+      --c-primary-soft: #FFE3EE;
+      --c-accent: #FFC93C;
+      --c-accent-hover: #FFB800;
+      --c-accent-soft: #FFF3CF;
+      --c-bg: #FFF8F1;
+      --c-surface: #FFFFFF;
+      --c-text: #2A1A31;
+      --c-muted: #5B4A63;
+      --c-border: #F1DCE6;
+      --c-white: #FFFFFF;
+      --c-footer-bg: #2A1A31;
+      --c-footer-text: #F4EAF7;
+      --c-focus: #1565C0;
+      --c-header-bg: rgba(255, 248, 241, 0.92);
+      --c-overlay: rgba(25, 12, 30, 0.85);
+      --c-shadow: rgba(122, 20, 64, 0.14);
+
+      /* Конфетти и пиньята */
+      --cf-1: #FF4D8D;
+      --cf-2: #FFD23F;
+      --cf-3: #36C5F0;
+      --cf-4: #3DDC97;
+      --cf-5: #8C6CF2;
+      --cf-6: #FF8A3D;
+      --pinyo-snout: #FFB3CF;
+      --pinyo-soft: #FFC7DC;
+      --pinyo-rope: #8B5E3C;
+      --pinyo-drop: #9BE3FF;
+      --pinyo-line: #2A1A31;
+
+      /* Иконки (inline SVG, контурные) */
+      --icon-line: var(--c-primary-dark);
+      --icon-trail: var(--c-muted);
+      --icon-stroke: 2;
+      --icon-size: 30px;
+
+      /* Заглушки скриншотов */
+      --ph-1a: #FFE3EE; --ph-1b: #FFC7DC;
+      --ph-2a: #FFF3CF; --ph-2b: #FFE08A;
+      --ph-3a: #DDF6FF; --ph-3b: #A9E6FA;
+      --ph-4a: #E4FBEF; --ph-4b: #B5F0D3;
+      --ph-5a: #EEE8FF; --ph-5b: #D2C5FB;
+      --ph-6a: #FFEAD9; --ph-6b: #FFC9A3;
+
+      /* Типографика */
+      --font-head: "Rubik", "Trebuchet MS", system-ui, sans-serif;
+      --font-body: "Nunito", "Segoe UI", system-ui, sans-serif;
+      --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --fs-small: clamp(0.875rem, 0.85rem + 0.15vw, 0.95rem);
+      --fs-h1: clamp(2.6rem, 1.6rem + 5vw, 5rem);
+      --fs-h2: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
+      --fs-h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+      --fs-lead: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+
+      /* Отступы, формы, тени */
+      --gutter: clamp(16px, 4vw, 32px);
+      --section-y: clamp(3.5rem, 2.5rem + 5vw, 6.5rem);
+      --gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
+      --radius-s: 12px;
+      --radius: 20px;
+      --radius-l: 28px;
+      --shadow: 0 6px 20px var(--c-shadow);
+      --shadow-lg: 0 14px 40px var(--c-shadow);
+      --header-h: 68px;
+      --container: 1140px;
+    }
+
+    /* ========== 2. База ========== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.6;
+      color: var(--c-text);
+      background: var(--c-bg);
+      overflow-x: hidden;
+    }
+    body:has(dialog[open]) { overflow: hidden; }
+    img, svg { display: block; max-width: 100%; }
+    img { height: auto; }
+    h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; margin: 0 0 0.5em; }
+    p { margin: 0 0 1em; }
+    a { color: var(--c-primary); }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid var(--c-focus); outline-offset: 3px; border-radius: 6px; }
+
+    .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+    .visually-hidden {
+      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; left: var(--gutter); top: -100px; z-index: 200;
+      background: var(--c-text); color: var(--c-white); padding: 12px 18px; border-radius: var(--radius-s);
+      font-weight: 700; text-decoration: none;
+    }
+    .skip-link:focus { top: 12px; }
+
+    section[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+    .section { padding-block: var(--section-y); }
+    .section--alt { background: var(--c-surface); }
+    .section__head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 1.5rem + 2vw, 3rem); }
+    .section__title { font-size: var(--fs-h2); font-weight: 800; }
+    .section__lead { color: var(--c-muted); font-size: var(--fs-body); margin: 0; }
+    .eyebrow {
+      display: inline-block; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-small);
+      color: var(--c-primary-dark); background: var(--c-primary-soft); padding: 4px 14px; border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ========== 3. Кнопки ========== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+      min-height: 48px; padding: 0.7em 1.5em;
+      font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; line-height: 1.2;
+      text-decoration: none; border: 0; border-radius: 999px; cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn--primary { background: var(--c-primary); color: var(--c-white); box-shadow: 0 6px 0 var(--c-primary-dark); }
+    .btn--primary:hover { background: var(--c-primary-hover); transform: translateY(-2px); box-shadow: 0 8px 0 var(--c-primary-dark); }
+    .btn--primary:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--c-primary-dark); }
+    .btn--accent { background: var(--c-accent); color: var(--c-text); box-shadow: 0 6px 0 var(--c-accent-hover); }
+    .btn--accent:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--c-accent-hover); }
+    .btn--accent:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--c-accent-hover); }
+    .btn--ghost { background: var(--c-surface); color: var(--c-primary-dark); box-shadow: inset 0 0 0 2px var(--c-border), 0 4px 0 var(--c-border); }
+    .btn--ghost:hover { transform: translateY(-2px); }
+    .btn--ghost:active { transform: translateY(3px); box-shadow: inset 0 0 0 2px var(--c-border), 0 1px 0 var(--c-border); }
+    .btn--lg { min-height: 56px; font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); padding: 0.8em 1.8em; }
+    .btn--sm { min-height: 44px; padding: 0.5em 1.1em; font-size: 0.95rem; }
+    .btn:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 4px; border-radius: 999px; }
+
+    /* ========== 4. Шапка ========== */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--c-header-bg);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .header__inner { display: flex; align-items: center; gap: 10px; min-height: var(--header-h); }
+    .logo {
+      display: inline-flex; align-items: center; min-height: 44px; margin-right: auto;
+      font-family: var(--font-head); font-weight: 800; font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+      color: var(--c-text); text-decoration: none; white-space: nowrap; letter-spacing: -0.01em;
+    }
+    .logo span { color: var(--c-primary); }
+
+    .burger {
+      display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-s);
+      background: var(--c-primary-soft); cursor: pointer;
+    }
+    .burger__line {
+      display: block; width: 22px; height: 3px; border-radius: 3px; background: var(--c-primary-dark);
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    .burger[aria-expanded="true"] .burger__line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .burger[aria-expanded="true"] .burger__line:nth-child(2) { opacity: 0; }
+    .burger[aria-expanded="true"] .burger__line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .nav {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--c-surface); border-bottom: 1px solid var(--c-border); box-shadow: var(--shadow);
+      padding: 8px var(--gutter) 16px;
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+    }
+    .nav.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s; }
+    .nav__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .nav__link {
+      display: flex; align-items: center; min-height: 48px; padding: 0 12px;
+      font-weight: 700; color: var(--c-text); text-decoration: none; border-radius: var(--radius-s);
+    }
+    .nav__link:hover { background: var(--c-primary-soft); color: var(--c-primary-dark); }
+
+    @media (min-width: 960px) {
+      .burger { display: none; }
+      .nav {
+        position: static; background: none; border: 0; box-shadow: none; padding: 0;
+        opacity: 1; visibility: visible; transform: none; transition: none;
+      }
+      .nav__list { flex-direction: row; gap: 4px; }
+      .nav__link { min-height: 44px; padding: 0 14px; }
+      .header__inner { gap: 16px; }
+    }
+
+    /* ========== 5. Hero ========== */
+    .hero { position: relative; overflow: hidden; padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem) var(--section-y); }
+    .hero::before {
+      content: ""; position: absolute; inset: auto -20% -40% -20%; height: 70%;
+      background: radial-gradient(closest-side, var(--c-primary-soft), transparent);
+      pointer-events: none;
+    }
+    .hero__inner { position: relative; z-index: 1; display: grid; gap: clamp(2rem, 1rem + 3vw, 3rem); align-items: center; }
+    .hero__text { text-align: center; }
+    .hero__badge {
+      display: inline-block; margin-bottom: 1rem; padding: 6px 16px; border-radius: 999px;
+      background: var(--c-accent-soft); color: var(--c-text); font-weight: 800; font-size: var(--fs-small);
+      box-shadow: inset 0 0 0 2px var(--c-accent);
+    }
+    .hero__title {
+      font-size: var(--fs-h1); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.3em;
+      color: var(--c-text);
+    }
+    .hero__title span { color: var(--c-primary); }
+    .hero__slogan { font-size: var(--fs-lead); font-weight: 700; color: var(--c-muted); max-width: 32ch; margin: 0 auto 1.75rem; }
+    .hero__actions { display: flex; flex-wrap: wrap; gap: 14px 16px; justify-content: center; }
+    .hero__art { position: relative; justify-self: center; width: min(100%, 440px); }
+
+    @media (min-width: 900px) {
+      .hero__inner { grid-template-columns: 1.1fr 0.9fr; }
+      .hero__text { text-align: left; }
+      .hero__slogan { margin-inline: 0; }
+      .hero__actions { justify-content: flex-start; }
+    }
+
+    /* Пиньята */
+    .pinyo { width: 100%; height: auto; transform-origin: 50% 0; animation: sway 3.4s ease-in-out infinite; }
+    @keyframes sway {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+    .pinyo .p-pink   { fill: var(--cf-1); }
+    .pinyo .p-orange { fill: var(--cf-6); }
+    .pinyo .p-yellow { fill: var(--cf-2); }
+    .pinyo .p-green  { fill: var(--cf-4); }
+    .pinyo .p-blue   { fill: var(--cf-3); }
+    .pinyo .p-purple { fill: var(--cf-5); }
+    .pinyo .p-soft   { fill: var(--pinyo-soft); }
+    .pinyo .p-snout  { fill: var(--pinyo-snout); }
+    .pinyo .p-dark   { fill: var(--pinyo-line); }
+    .pinyo .p-white  { fill: var(--c-white); }
+    .pinyo .eye      { fill: var(--c-white); stroke: var(--pinyo-line); stroke-width: 3; }
+    .pinyo .brow     { fill: none; stroke: var(--pinyo-line); stroke-width: 3.5; stroke-linecap: round; }
+    .pinyo .rope     { fill: none; stroke: var(--pinyo-rope); stroke-width: 4; stroke-dasharray: 7 5; stroke-linecap: round; }
+    .pinyo .drop     { fill: var(--pinyo-drop); stroke: var(--pinyo-line); stroke-width: 1.5; }
+    .pinyo .fr-line  { fill: none; stroke: var(--pinyo-line); stroke-opacity: 0.16; stroke-width: 2; }
+    .pinyo .tail     { fill: none; stroke-width: 5; stroke-linecap: round; }
+    .pinyo .s-pink   { stroke: var(--cf-1); }
+    .pinyo .s-yellow { stroke: var(--cf-2); }
+    .pinyo .s-blue   { stroke: var(--cf-3); }
+
+    /* Конфетти */
+    .confetti { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .confetti__piece {
+      position: absolute; top: -24px; left: var(--x);
+      width: 10px; height: 16px; border-radius: 3px;
+      background: var(--cf-1); opacity: 0.85;
+      animation: confetti-fall var(--d, 8s) linear var(--delay, 0s) infinite;
+      will-change: transform;
+    }
+    .confetti__piece:nth-child(6n+2) { background: var(--cf-2); }
+    .confetti__piece:nth-child(6n+3) { background: var(--cf-3); width: 12px; height: 12px; border-radius: 50%; }
+    .confetti__piece:nth-child(6n+4) { background: var(--cf-4); }
+    .confetti__piece:nth-child(6n+5) { background: var(--cf-5); width: 8px; height: 18px; }
+    .confetti__piece:nth-child(6n)   { background: var(--cf-6); width: 12px; height: 12px; border-radius: 50%; }
+    @keyframes confetti-fall {
+      0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+      100% { transform: translate3d(var(--drift, 40px), 1100px, 0) rotate(720deg); }
+    }
+
+    /* Общий стиль иконок: один viewBox 24×24 и один размер — одинаковая толщина линий */
+    .icon {
+      width: var(--icon-size); height: var(--icon-size); flex: none;
+      fill: none; stroke: var(--icon-line); stroke-width: var(--icon-stroke);
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ========== 6. История ========== */
+    .story__card {
+      background: var(--c-surface); border-radius: var(--radius-l); box-shadow: var(--shadow);
+      padding: clamp(1.5rem, 1rem + 2.5vw, 2.75rem); border: 2px solid var(--c-border);
+    }
+    .story__card p { font-size: var(--fs-body); }
+    .story__card p:last-of-type { margin-bottom: 0; }
+    .story__card strong { color: var(--c-primary-dark); }
+    /* След из конфетти и фантиков — внизу карточки, значки соединены пунктиром */
+    .story__trail {
+      position: relative; display: flex; justify-content: space-between; align-items: center;
+      margin-top: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    }
+    .story__trail::before {
+      content: ""; position: absolute; left: 26px; right: 26px; top: 50%;
+      border-top: 2px dashed var(--icon-trail); opacity: 0.35;
+    }
+    .story__chip {
+      position: relative; display: grid; place-items: center; width: 52px; height: 52px;
+      border-radius: 50%; background: var(--c-accent-soft); box-shadow: 0 0 0 4px var(--c-surface);
+    }
+    .story__chip:nth-child(even) { background: var(--c-primary-soft); }
+
+    /* ========== 7. Особенности ========== */
+    .features { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+    .feature {
+      background: var(--c-bg); border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+      border: 2px solid var(--c-border); box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+    .feature:hover { transform: translateY(-4px); }
+    .feature__icon {
+      display: grid; place-items: center; width: 60px; height: 60px; margin-bottom: 1rem;
+      border-radius: 18px; background: var(--c-accent-soft);
+    }
+    .feature:nth-child(even) .feature__icon { background: var(--c-primary-soft); }
+    .feature__title { font-size: var(--fs-h3); font-weight: 700; margin-bottom: 0.35em; }
+    .feature__text { color: var(--c-muted); margin: 0; }
+
+    /* ========== 8. Скриншоты ========== */
+    .shots { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+    .shot {
+      position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in;
+      border-radius: var(--radius); overflow: hidden; background: var(--c-border); box-shadow: var(--shadow);
+      aspect-ratio: 16 / 9; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .shot:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 4px; border-radius: var(--radius); }
+    .shot img { width: 100%; height: 100%; object-fit: cover; }
+    /* Пока у <img> нет src (скриншотов нет) — картинка скрыта, видна цветная заглушка */
+    .shot img:not([src]) { display: none; }
+    .shot img[src] ~ .shot__ph { display: none; }
+    .shot__ph {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+      padding: 1rem; text-align: center; color: var(--c-text);
+      background: linear-gradient(135deg, var(--ph-a), var(--ph-b));
+    }
+    .shots li:nth-child(1) .shot__ph { --ph-a: var(--ph-1a); --ph-b: var(--ph-1b); }
+    .shots li:nth-child(2) .shot__ph { --ph-a: var(--ph-2a); --ph-b: var(--ph-2b); }
+    .shots li:nth-child(3) .shot__ph { --ph-a: var(--ph-3a); --ph-b: var(--ph-3b); }
+    .shots li:nth-child(4) .shot__ph { --ph-a: var(--ph-4a); --ph-b: var(--ph-4b); }
+    .shots li:nth-child(5) .shot__ph { --ph-a: var(--ph-5a); --ph-b: var(--ph-5b); }
+    .shots li:nth-child(6) .shot__ph { --ph-a: var(--ph-6a); --ph-b: var(--ph-6b); }
+    .shot__ph-icon { font-size: clamp(2rem, 1.6rem + 1.5vw, 2.8rem); line-height: 1; }
+    .shot__ph-title { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-h3); }
+    .shot__ph-note { font-size: var(--fs-small); font-weight: 700; color: var(--c-muted); }
+
+    /* Лайтбокс */
+    .lightbox {
+      width: min(960px, 92vw); max-width: none; max-height: 90vh; padding: 0; border: 0; overflow: visible;
+      background: transparent; color: var(--c-white);
+    }
+    .lightbox::backdrop { background: var(--c-overlay); }
+    .lightbox[open] { animation: lb-in 0.22s ease-out; }
+    @keyframes lb-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+    .lightbox__figure { margin: 0; }
+    .lightbox__media { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--c-surface); }
+    .lightbox__media img { width: 100%; height: auto; max-height: 78vh; object-fit: contain; }
+    .lightbox__media .shot__ph { position: relative; aspect-ratio: 16 / 9; }
+    .lightbox__caption { margin-top: 12px; text-align: center; font-weight: 700; color: var(--c-white); }
+    .lightbox__close {
+      position: absolute; top: -56px; right: 0; width: 48px; height: 48px;
+      display: grid; place-items: center; border: 0; border-radius: 50%; cursor: pointer;
+      background: var(--c-surface); color: var(--c-text); font-size: 2rem; line-height: 1;
+      transition: transform 0.15s ease;
+    }
+    .lightbox__close:hover { transform: rotate(90deg); }
+    .lightbox__close:active { transform: scale(0.92); }
+    .lightbox__close:focus-visible { outline: 3px solid var(--c-accent); outline-offset: 3px; border-radius: 50%; }
+
+    /* ========== 9. Как начать ========== */
+    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); counter-reset: step; }
+    .step {
+      position: relative; counter-increment: step;
+      background: var(--c-surface); border-radius: var(--radius); border: 2px solid var(--c-border); box-shadow: var(--shadow);
+      padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    }
+    .step::before {
+      content: counter(step);
+      display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 1rem;
+      font-family: var(--font-head); font-weight: 800; font-size: 1.6rem;
+      color: var(--c-white); background: var(--c-primary); border-radius: 50%;
+      box-shadow: 0 4px 0 var(--c-primary-dark);
+    }
+    .step__title { font-size: var(--fs-h3); font-weight: 700; margin-bottom: 0.35em; }
+    .step__text { color: var(--c-muted); margin: 0; }
+    .steps-cta { display: flex; justify-content: center; margin-top: clamp(2rem, 1.5rem + 2vw, 3rem); }
+
+    /* ========== 10. FAQ ========== */
+    .faq { max-width: 760px; margin-inline: auto; display: grid; gap: 12px; }
+    .faq__item { background: var(--c-bg); border: 2px solid var(--c-border); border-radius: var(--radius); }
+    .faq__item[open] { border-color: var(--c-primary-soft); box-shadow: var(--shadow); }
+    .faq__q {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      min-height: 56px; padding: 14px 20px; cursor: pointer; list-style: none;
+      font-family: var(--font-head); font-weight: 700; font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+      border-radius: var(--radius);
+    }
+    .faq__q::-webkit-details-marker { display: none; }
+    .faq__q::after {
+      content: "+"; flex: none; display: grid; place-items: center; width: 32px; height: 32px;
+      border-radius: 50%; background: var(--c-primary-soft); color: var(--c-primary-dark);
+      font-size: 1.4rem; line-height: 1; transition: transform 0.2s ease;
+    }
+    .faq__item[open] .faq__q::after { transform: rotate(45deg); }
+    .faq__q:focus-visible { outline-offset: -3px; border-radius: var(--radius); }
+    .faq__a { padding: 0 20px 18px; margin: 0; color: var(--c-muted); }
+
+    /* ========== 11. Подвал ========== */
+    .footer { background: var(--c-footer-bg); color: var(--c-footer-text); padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem); }
+    .footer__inner { display: grid; gap: 1.5rem; justify-items: center; text-align: center; }
+    .footer__logo { font-family: var(--font-head); font-weight: 800; font-size: 1.5rem; color: var(--c-white); }
+    .footer__logo span { color: var(--c-accent); }
+    .footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .footer__link {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
+      color: var(--c-white); text-decoration: none; font-weight: 700;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.28); transition: background-color 0.15s ease;
+    }
+    .footer__link:hover { background: rgba(255, 255, 255, 0.1); }
+    .footer__link:focus-visible { outline-color: var(--c-accent); border-radius: 999px; }
+    .footer__copy, .footer__note { margin: 0; font-size: var(--fs-small); }
+    .footer__note { opacity: 0.9; }
+
+    /* ========== 12. Появление при прокрутке ========== */
+    .reveal-on .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal-on .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ========== 13. Меньше движения ========== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .confetti { display: none; }
+      .pinyo { transform: none; }
+      .reveal-on .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <!-- ========== ШАПКА ========== -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="Party Cleanup! — в начало страницы">Party&nbsp;<span>Cleanup!</span></a>
+
+      <nav class="nav" id="site-nav" aria-label="Основное меню">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#story">История</a></li>
+          <li><a class="nav__link" href="#features">Особенности</a></li>
+          <li><a class="nav__link" href="#screenshots">Скриншоты</a></li>
+          <li><a class="nav__link" href="#start">Как начать</a></li>
+          <li><a class="nav__link" href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть») -->
+      <a class="btn btn--primary btn--sm" href="#" target="_blank" rel="noopener">Следить</a>
+
+      <button class="burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
+        <span class="burger__line" aria-hidden="true"></span>
+        <span class="burger__line" aria-hidden="true"></span>
+        <span class="burger__line" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="confetti" aria-hidden="true">
+        <span class="confetti__piece" style="--x:3%;  --d:9s;  --delay:-1s;  --drift:30px"></span>
+        <span class="confetti__piece" style="--x:10%; --d:11s; --delay:-6s;  --drift:-40px"></span>
+        <span class="confetti__piece" style="--x:17%; --d:8s;  --delay:-3s;  --drift:50px"></span>
+        <span class="confetti__piece" style="--x:24%; --d:12s; --delay:-9s;  --drift:-20px"></span>
+        <span class="confetti__piece" style="--x:31%; --d:10s; --delay:-2s;  --drift:35px"></span>
+        <span class="confetti__piece" style="--x:38%; --d:9s;  --delay:-7s;  --drift:-45px"></span>
+        <span class="confetti__piece" style="--x:45%; --d:13s; --delay:-4s;  --drift:25px"></span>
+        <span class="confetti__piece" style="--x:52%; --d:8s;  --delay:-5s;  --drift:-30px"></span>
+        <span class="confetti__piece" style="--x:59%; --d:11s; --delay:-10s; --drift:40px"></span>
+        <span class="confetti__piece" style="--x:66%; --d:9s;  --delay:-1.5s;--drift:-35px"></span>
+        <span class="confetti__piece" style="--x:73%; --d:12s; --delay:-8s;  --drift:20px"></span>
+        <span class="confetti__piece" style="--x:80%; --d:10s; --delay:-3.5s;--drift:-50px"></span>
+        <span class="confetti__piece" style="--x:86%; --d:8s;  --delay:-6.5s;--drift:30px"></span>
+        <span class="confetti__piece" style="--x:92%; --d:11s; --delay:-2.5s;--drift:-25px"></span>
+        <span class="confetti__piece" style="--x:96%; --d:9s;  --delay:-9.5s;--drift:-40px"></span>
+        <span class="confetti__piece" style="--x:49%; --d:14s; --delay:-12s; --drift:45px"></span>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="hero__badge">🎉 Скоро в Roblox</p>
+          <h1 class="hero__title" id="hero-title">Party <span>Cleanup!</span></h1>
+          <!--
+            Варианты слогана:
+            1) «Вечеринка удалась. Теперь убери всё, пока родители не вернулись!»  ← используется
+            2) «Конфетти везде. Времени мало. Пиньята сбежала!»
+            3) «Устроил хаос — наведи порядок!»
+          -->
+          <p class="hero__slogan">Вечеринка удалась. Теперь убери всё, пока родители не вернулись!</p>
+          <div class="hero__actions">
+            <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть в Roblox») -->
+            <a class="btn btn--primary btn--lg" href="#" target="_blank" rel="noopener">Следить за выходом</a>
+            <a class="btn btn--ghost btn--lg" href="#story">Что случилось?</a>
+          </div>
+        </div>
+
+        <div class="hero__art">
+          <!-- Пиньята Pinyo -->
+          <svg class="pinyo" viewBox="15 0 320 290" width="440" height="399" aria-hidden="true" focusable="false">
+            <defs>
+              <pattern id="fringe" width="10" height="13" patternUnits="userSpaceOnUse">
+                <path class="fr-line" d="M0 13 L5 6 L10 13"/>
+              </pattern>
+              <clipPath id="body-clip">
+                <rect x="70" y="135" width="190" height="85" rx="36"/>
+              </clipPath>
+            </defs>
+
+            <!-- верёвка -->
+            <path class="rope" d="M175 0 V140"/>
+
+            <!-- хвост из ленточек -->
+            <path class="tail s-pink"   d="M76 160 q-34 -4 -46 18"/>
+            <path class="tail s-yellow" d="M74 166 q-26 6 -34 34"/>
+            <path class="tail s-blue"   d="M74 173 q-18 16 -18 44"/>
+
+            <!-- ноги -->
+            <rect class="p-purple" x="124" y="204" width="24" height="64" rx="8"/>
+            <rect x="124" y="204" width="24" height="64" rx="8" fill="url(#fringe)"/>
+            <rect class="p-blue" x="228" y="204" width="24" height="64" rx="8"/>
+            <rect x="228" y="204" width="24" height="64" rx="8" fill="url(#fringe)"/>
+            <rect class="p-orange" x="92" y="204" width="24" height="66" rx="8"/>
+            <rect x="92" y="204" width="24" height="66" rx="8" fill="url(#fringe)"/>
+            <rect class="p-green" x="196" y="204" width="24" height="66" rx="8"/>
+            <rect x="196" y="204" width="24" height="66" rx="8" fill="url(#fringe)"/>
+            <rect class="p-dark" x="92"  y="262" width="24" height="10" rx="4"/>
+            <rect class="p-dark" x="196" y="262" width="24" height="10" rx="4"/>
+            <rect class="p-dark" x="124" y="260" width="24" height="10" rx="4"/>
+            <rect class="p-dark" x="228" y="260" width="24" height="10" rx="4"/>
+
+            <!-- шея -->
+            <polygon class="p-yellow" points="212,150 254,150 268,96 228,88"/>
+            <polygon points="212,150 254,150 268,96 228,88" fill="url(#fringe)"/>
+
+            <!-- тело в радужной бахроме -->
+            <g clip-path="url(#body-clip)">
+              <rect class="p-pink"   x="70" y="135" width="190" height="13"/>
+              <rect class="p-orange" x="70" y="148" width="190" height="13"/>
+              <rect class="p-yellow" x="70" y="161" width="190" height="13"/>
+              <rect class="p-green"  x="70" y="174" width="190" height="13"/>
+              <rect class="p-blue"   x="70" y="187" width="190" height="13"/>
+              <rect class="p-purple" x="70" y="200" width="190" height="13"/>
+              <rect class="p-pink"   x="70" y="213" width="190" height="13"/>
+              <rect x="70" y="135" width="190" height="85" fill="url(#fringe)"/>
+            </g>
+
+            <!-- уши -->
+            <ellipse class="p-pink" cx="232" cy="36" rx="10" ry="25" transform="rotate(-14 232 36)"/>
+            <ellipse class="p-soft" cx="232" cy="38" rx="4.5" ry="15" transform="rotate(-14 232 38)"/>
+            <ellipse class="p-pink" cx="260" cy="32" rx="10" ry="25" transform="rotate(10 260 32)"/>
+            <ellipse class="p-soft" cx="260" cy="34" rx="4.5" ry="15" transform="rotate(10 260 34)"/>
+
+            <!-- голова -->
+            <rect class="p-pink" x="210" y="52" width="98" height="60" rx="28"/>
+            <rect x="210" y="52" width="98" height="60" rx="28" fill="url(#fringe)"/>
+
+            <!-- морда -->
+            <ellipse class="p-snout" cx="297" cy="93" rx="22" ry="19"/>
+            <ellipse class="p-dark" cx="292" cy="86" rx="2.5" ry="3"/>
+            <ellipse class="p-dark" cx="304" cy="88" rx="2.5" ry="3"/>
+            <ellipse class="p-dark" cx="295" cy="103" rx="5" ry="6.5"/>
+
+            <!-- испуганные глаза -->
+            <circle class="eye" cx="240" cy="77" r="15"/>
+            <circle class="eye" cx="270" cy="75" r="15"/>
+            <circle class="p-dark" cx="236" cy="81" r="5.5"/>
+            <circle class="p-dark" cx="266" cy="79" r="5.5"/>
+            <circle class="p-white" cx="238" cy="79" r="2"/>
+            <circle class="p-white" cx="268" cy="77" r="2"/>
+            <path class="brow" d="M226 55 Q238 46 250 52"/>
+            <path class="brow" d="M258 50 Q270 43 283 50"/>
+
+            <!-- капля пота -->
+            <path class="drop" d="M320 52 q7 11 0 15 q-7 -4 0 -15z"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ИСТОРИЯ ========== -->
+    <section class="section section--alt" id="story" aria-labelledby="story-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Что случилось?</p>
+          <h2 class="section__title" id="story-title">История</h2>
+        </div>
+        <div class="story reveal">
+          <div class="story__card">
+            <p>Родителей нет дома — значит, можно устроить <strong>вечеринку</strong>! Музыка, танцы, конфетти… Но всё очень быстро вышло из-под контроля.</p>
+            <p>Теперь в доме полный беспорядок, а родители скоро вернутся. Хватай метлу, зови друзей и убирай всё, пока не поздно!</p>
+            <p>А главная виновница хаоса — <strong>пиньята-ослик Pinyo</strong>. Она ожила, убегает и прячется, а за ней тянется след из конфетти и фантиков. Собирай улики и узнай, кто всё это устроил!</p>
+            <div class="story__trail" aria-hidden="true">
+              <span class="story__chip">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20 8.5 8.5l7 7z"/><path d="M13 3.5v2M18.5 5.5 17 7M20.5 11h-2"/><path d="M10.5 3.5l.5.5M20 15.5l.5.5"/></svg>
+              </span>
+              <span class="story__chip">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M8.2 10.8 3 8v8l5.2-2.8M15.8 10.8 21 8v8l-5.2-2.8"/><path d="M11 8.2q2 3.8 0 7.6"/></svg>
+              </span>
+              <span class="story__chip">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20 8.5 8.5l7 7z"/><path d="M13 3.5v2M18.5 5.5 17 7M20.5 11h-2"/><path d="M10.5 3.5l.5.5M20 15.5l.5.5"/></svg>
+              </span>
+              <span class="story__chip">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M8.2 10.8 3 8v8l5.2-2.8M15.8 10.8 21 8v8l-5.2-2.8"/><path d="M11 8.2q2 3.8 0 7.6"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ОСОБЕННОСТИ ========== -->
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Что внутри</p>
+          <h2 class="section__title" id="features-title">Особенности</h2>
+          <p class="section__lead">Убирай, прокачивайся и разгадай тайну пиньяты.</p>
+        </div>
+        <ul class="features">
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11 12 4l9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg>
+            </span>
+            <h3 class="feature__title">9 локаций</h3>
+            <p class="feature__text">Двор, крыша магазина, гараж, кухня, патио, бассейн, парковка, сад и подвал.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5V11"/><path d="M8.5 11h7l3 10h-13z"/><path d="M10 15.5 9.5 21M14 15.5l.5 5.5"/></svg>
+            </span>
+            <h3 class="feature__title">Инструменты и прокачка</h3>
+            <p class="feature__text">Руки, метла, воздуходувка и пылесос. Сдавай мусор — качай инструменты.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.1c.3-.1.7-.1 1-.1 2.8 0 4.5 2.2 4.5 5"/></svg>
+            </span>
+            <h3 class="feature__title">Играй с друзьями</h3>
+            <p class="feature__text">Кооператив до 4 игроков: вместе убирать быстрее!</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V10M10 2.5h4M12 2.5V6M18.5 6.5 20 5"/></svg>
+            </span>
+            <h3 class="feature__title">4 уровня сложности</h3>
+            <p class="feature__text">Раунд длится от 20 до 90 минут. Чем сложнее — тем меньше времени.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+            </span>
+            <h3 class="feature__title">Улики про Pinyo</h3>
+            <p class="feature__text">Собери коллекцию улик и узнай всю правду о пиньяте.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h12l4 5-10 11L2 9z"/><path d="M2 9h20M9.5 4 8 9l4 11 4-11-1.5-5"/></svg>
+            </span>
+            <h3 class="feature__title">Гемы и награды</h3>
+            <p class="feature__text">Гемы, постоянные улучшения персонажа и награды каждый день.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== СКРИНШОТЫ ========== -->
+    <section class="section section--alt" id="screenshots" aria-labelledby="screenshots-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Как это выглядит</p>
+          <h2 class="section__title" id="screenshots-title">Скриншоты</h2>
+          <p class="section__lead">Нажми на картинку, чтобы увеличить.</p>
+        </div>
+
+        <!--
+          ЗАМЕНИТЬ: скриншоты. Положите файлы в папку images/ и у каждого <img> переименуйте
+          атрибут data-src в src — цветная заглушка исчезнет сама.
+          (Пока src нет, браузер не пытается грузить несуществующие файлы, и в консоли нет ошибок 404.)
+        -->
+        <ul class="shots">
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Двор после вечеринки">
+              <img data-src="images/screen1.webp" alt="Скриншот игры: двор после вечеринки" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🏡</span>
+                <span class="shot__ph-title">Двор</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Беспорядок на кухне">
+              <img data-src="images/screen2.webp" alt="Скриншот игры: беспорядок на кухне" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🍰</span>
+                <span class="shot__ph-title">Кухня</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Уборка у бассейна">
+              <img data-src="images/screen3.webp" alt="Скриншот игры: уборка у бассейна" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🏊</span>
+                <span class="shot__ph-title">Бассейн</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Уборка в саду">
+              <img data-src="images/screen4.webp" alt="Скриншот игры: уборка в саду" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🌷</span>
+                <span class="shot__ph-title">Сад</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Тёмный подвал">
+              <img data-src="images/screen5.webp" alt="Скриншот игры: тёмный подвал" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🔦</span>
+                <span class="shot__ph-title">Подвал</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+          <li class="reveal">
+            <button class="shot" type="button" data-caption="Беспорядок в гараже">
+              <img data-src="images/screen6.webp" alt="Скриншот игры: беспорядок в гараже" width="1280" height="720" loading="lazy">
+              <span class="shot__ph" aria-hidden="true">
+                <span class="shot__ph-icon">🚗</span>
+                <span class="shot__ph-title">Гараж</span>
+                <span class="shot__ph-note">Скриншот скоро будет</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== КАК НАЧАТЬ ========== -->
+    <section class="section" id="start" aria-labelledby="start-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Всего 3 шага</p>
+          <h2 class="section__title" id="start-title">Как начать</h2>
+        </div>
+        <ol class="steps">
+          <li class="step reveal">
+            <h3 class="step__title">Зайди в Roblox</h3>
+            <p class="step__text">Открой Roblox на компьютере или телефоне.</p>
+          </li>
+          <li class="step reveal">
+            <h3 class="step__title">Открой игру</h3>
+            <p class="step__text">Когда игра выйдет, нажми «Играть» на этой странице — и ты уже в доме.</p>
+          </li>
+          <li class="step reveal">
+            <h3 class="step__title">Убери дом и найди улики</h3>
+            <p class="step__text">Хватай метлу, зови друзей и разгадай тайну Pinyo.</p>
+          </li>
+        </ol>
+        <div class="steps-cta reveal">
+          <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть в Roblox») -->
+          <a class="btn btn--accent btn--lg" href="#" target="_blank" rel="noopener">Следить за выходом</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="section section--alt" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Вопросы</p>
+          <h2 class="section__title" id="faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq reveal">
+          <details class="faq__item">
+            <summary class="faq__q">Бесплатна ли игра?</summary>
+            <p class="faq__a">Да, играть можно бесплатно. За робуксы есть необязательные улучшения.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">На каких устройствах работает?</summary>
+            <p class="faq__a">На компьютере и телефоне.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Можно ли играть с друзьями?</summary>
+            <p class="faq__a">Да, в комнате может быть до 4 игроков.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Сколько длится раунд?</summary>
+            <p class="faq__a">От 20 до 90 минут — зависит от выбранной сложности.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Сколько всего локаций?</summary>
+            <p class="faq__a">9: двор, крыша магазина, гараж, кухня, патио, бассейн, парковка, сад и подвал.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== ПОДВАЛ ========== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__logo">Party <span>Cleanup!</span></p>
+      <ul class="footer__links">
+        <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу -->
+        <li><a class="footer__link" href="#" target="_blank" rel="noopener">Группа в Roblox</a></li>
+        <!-- ЗАМЕНИТЬ: href="#" на приглашение в Discord -->
+        <li><a class="footer__link" href="#" target="_blank" rel="noopener">Discord</a></li>
+      </ul>
+      <p class="footer__copy">© 2026 Party Cleanup!</p>
+      <p class="footer__note">Игра не является официальным продуктом Roblox Corporation</p>
+    </div>
+  </footer>
+
+  <!-- ========== ЛАЙТБОКС ========== -->
+  <dialog class="lightbox" id="lightbox" aria-label="Просмотр скриншота">
+    <button class="lightbox__close" type="button" aria-label="Закрыть">×</button>
+    <figure class="lightbox__figure">
+      <div class="lightbox__media"></div>
+      <figcaption class="lightbox__caption"></figcaption>
+    </figure>
+  </dialog>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Бургер-меню ---------- */
+      var burger = document.querySelector('.burger');
+      var nav = document.getElementById('site-nav');
+      var desktop = window.matchMedia('(min-width: 960px)');
+
+      function setMenu(open) {
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+        nav.classList.toggle('is-open', open);
+      }
+
+      burger.addEventListener('click', function () {
+        setMenu(burger.getAttribute('aria-expanded') !== 'true');
+      });
+
+      nav.addEventListener('click', function (e) {
+        if (e.target.closest('a')) setMenu(false);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+          setMenu(false);
+          burger.focus();
+        }
+      });
+
+      document.addEventListener('click', function (e) {
+        if (nav.classList.contains('is-open') && !e.target.closest('.header')) setMenu(false);
+      });
+
+      desktop.addEventListener('change', function () { setMenu(false); });
+
+      /* ---------- Лайтбокс ---------- */
+      var dialog = document.getElementById('lightbox');
+      var media = dialog.querySelector('.lightbox__media');
+      var caption = dialog.querySelector('.lightbox__caption');
+      var closeBtn = dialog.querySelector('.lightbox__close');
+      var lastTrigger = null;
+      var hasModal = typeof dialog.showModal === 'function';
+
+      function openLightbox(trigger) {
+        lastTrigger = trigger;
+        media.replaceChildren();
+
+        var img = trigger.querySelector('img');
+        if (img && img.getAttribute('src')) {
+          var big = new Image();
+          big.src = img.currentSrc || img.src;
+          big.alt = img.alt;
+          big.width = img.width;
+          big.height = img.height;
+          media.appendChild(big);
+        } else {
+          var original = trigger.querySelector('.shot__ph');
+          var ph = original.cloneNode(true);
+          ph.removeAttribute('aria-hidden');
+          ph.style.backgroundImage = getComputedStyle(original).backgroundImage;
+          media.appendChild(ph);
+        }
+        caption.textContent = trigger.dataset.caption || '';
+
+        if (hasModal) dialog.showModal(); else dialog.setAttribute('open', '');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        if (hasModal) dialog.close(); else { dialog.removeAttribute('open'); onClosed(); }
+      }
+
+      function onClosed() {
+        if (lastTrigger) lastTrigger.focus();
+      }
+
+      document.querySelectorAll('.shot').forEach(function (btn) {
+        btn.addEventListener('click', function () { openLightbox(btn); });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('close', onClosed);
+
+      // Клик вне картинки (по затемнению) закрывает окно
+      dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) closeLightbox();
+      });
+
+      // Esc: у <dialog> работает сам; это — запасной вариант для старых браузеров
+      if (!hasModal) {
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && dialog.hasAttribute('open')) closeLightbox();
+        });
+      }
+
+      /* ---------- Появление разделов при прокрутке ---------- */
+      var items = document.querySelectorAll('.reveal');
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        document.documentElement.classList.add('reveal-on');
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        items.forEach(function (el) { observer.observe(el); });
+      }
+    })();
+  </script>
+</body>
+</html>
