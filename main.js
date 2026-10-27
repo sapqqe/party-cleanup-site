@@ -293,19 +293,29 @@
   var hudValue = hud.querySelector('.hud__value');
   var hudFill = hud.querySelector('.hud__fill');
   var lastPct = -1;
+  var hudTimer = 0;
 
   function updateHud() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
     var y = window.scrollY;
     var pct = max > 0 ? Math.min(100, Math.round((y / max) * 100)) : 100;
-    hud.classList.toggle('is-visible', y > window.innerHeight * 0.5);
     if (pct === lastPct) return;
     lastPct = pct;
     hudValue.textContent = pct === 100 ? 'всё!' : pct + '%';
     hudFill.style.transform = 'scaleX(' + pct / 100 + ')';
     hud.classList.toggle('is-done', pct === 100);
   }
-  window.addEventListener('scroll', updateHud, { passive: true });
+
+  // HUD виден, только пока листаешь: остановился читать — он прячется и не закрывает текст
+  function onScroll() {
+    updateHud();
+    hud.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.5);
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(function () {
+      hud.classList.remove('is-visible');
+    }, lastPct === 100 ? 2500 : 1200);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
   updateHud();
 
   // на телефоне HUD не должен закрывать главную кнопку в финале
