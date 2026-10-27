@@ -11,776 +11,403 @@
   <meta property="og:url" content="#">
   <meta property="og:title" content="Party Cleanup! — игра в Roblox">
   <meta property="og:description" content="Вечеринка удалась. Теперь убери всё, пока родители не вернулись! Кооператив до 4 игроков.">
-  <!-- ЗАМЕНИТЬ: обложка для соцсетей (рекомендуемый размер 1200×630) -->
   <meta property="og:image" content="images/og-cover.png">
   <meta property="og:locale" content="ru_RU">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Party Cleanup! — игра в Roblox">
   <meta name="twitter:description" content="Вечеринка удалась. Теперь убери всё, пока родители не вернулись!">
-  <!-- ЗАМЕНИТЬ: обложка для соцсетей -->
   <meta name="twitter:image" content="images/og-cover.png">
+  <meta name="theme-color" content="#ff3d9a">
 
-  <meta name="theme-color" content="#C2185B">
-
-  <!-- Фавикон: пиньята-ослик в inline SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='44' width='6' height='14' rx='2' fill='%23FF8A3D'/%3E%3Crect x='36' y='44' width='6' height='14' rx='2' fill='%2336C5F0'/%3E%3Crect x='8' y='26' width='40' height='22' rx='10' fill='%23FF4D8D'/%3E%3Crect x='8' y='33' width='40' height='7' fill='%23FFD23F'/%3E%3Cpath d='M38 30 L44 14 L52 16 L48 32 Z' fill='%23FF4D8D'/%3E%3Crect x='40' y='8' width='20' height='13' rx='6' fill='%23FF4D8D'/%3E%3Cellipse cx='45' cy='5' rx='2.5' ry='5' fill='%23FF4D8D'/%3E%3Ccircle cx='49' cy='13' r='3' fill='%23fff'/%3E%3Ccircle cx='49' cy='13' r='1.3' fill='%232A1A31'/%3E%3Ccircle cx='6' cy='10' r='3' fill='%23FFD23F'/%3E%3Crect x='20' y='6' width='5' height='5' fill='%2336C5F0' transform='rotate(20 22 8)'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/webp" href="assets/icons/clue_1_tail.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fredoka и Baloo 2 не поддерживают кириллицу, поэтому для заголовков — округлый Rubik -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    /* ========== 1. Переменные ========== */
-    :root {
-      /* Основные цвета */
-      --c-primary: #C2185B;
-      --c-primary-hover: #A3134C;
-      --c-primary-dark: #7E0E3A;
-      --c-primary-soft: #FFE3EE;
-      --c-accent: #FFC93C;
-      --c-accent-hover: #FFB800;
-      --c-accent-soft: #FFF3CF;
-      --c-bg: #FFF8F1;
-      --c-surface: #FFFFFF;
-      --c-text: #2A1A31;
-      --c-muted: #5B4A63;
-      --c-border: #F1DCE6;
-      --c-white: #FFFFFF;
-      --c-footer-bg: #2A1A31;
-      --c-footer-text: #F4EAF7;
-      --c-focus: #1565C0;
-      --c-header-bg: rgba(255, 248, 241, 0.92);
-      --c-overlay: rgba(25, 12, 30, 0.85);
-      --c-shadow: rgba(122, 20, 64, 0.14);
-
-      /* Конфетти и пиньята */
-      --cf-1: #FF4D8D;
-      --cf-2: #FFD23F;
-      --cf-3: #36C5F0;
-      --cf-4: #3DDC97;
-      --cf-5: #8C6CF2;
-      --cf-6: #FF8A3D;
-      --pinyo-snout: #FFB3CF;
-      --pinyo-soft: #FFC7DC;
-      --pinyo-rope: #8B5E3C;
-      --pinyo-drop: #9BE3FF;
-      --pinyo-line: #2A1A31;
-
-      /* Иконки (inline SVG, контурные) */
-      --icon-line: var(--c-primary-dark);
-      --icon-trail: var(--c-muted);
-      --icon-stroke: 2;
-      --icon-size: 30px;
-
-      /* Типографика */
-      --font-head: "Rubik", "Trebuchet MS", system-ui, sans-serif;
-      --font-body: "Nunito", "Segoe UI", system-ui, sans-serif;
-      --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-      --fs-small: clamp(0.875rem, 0.85rem + 0.15vw, 0.95rem);
-      --fs-h1: clamp(2.6rem, 1.6rem + 5vw, 5rem);
-      --fs-h2: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
-      --fs-h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
-      --fs-lead: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
-
-      /* Отступы, формы, тени */
-      --gutter: clamp(16px, 4vw, 32px);
-      --section-y: clamp(3.5rem, 2.5rem + 5vw, 6.5rem);
-      --gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
-      --radius-s: 12px;
-      --radius: 20px;
-      --radius-l: 28px;
-      --shadow: 0 6px 20px var(--c-shadow);
-      --shadow-lg: 0 14px 40px var(--c-shadow);
-      --header-h: 68px;
-      --container: 1140px;
-    }
-
-    /* ========== 2. База ========== */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      font-family: var(--font-body);
-      font-size: var(--fs-body);
-      line-height: 1.6;
-      color: var(--c-text);
-      background: var(--c-bg);
-      overflow-x: hidden;
-    }
-    body:has(dialog[open]) { overflow: hidden; }
-    img, svg { display: block; max-width: 100%; }
-    img { height: auto; }
-    h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; margin: 0 0 0.5em; }
-    p { margin: 0 0 1em; }
-    a { color: var(--c-primary); }
-    button { font: inherit; }
-    :focus-visible { outline: 3px solid var(--c-focus); outline-offset: 3px; border-radius: 6px; }
-
-    .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
-    .visually-hidden {
-      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-    }
-    .skip-link {
-      position: absolute; left: var(--gutter); top: -100px; z-index: 200;
-      background: var(--c-text); color: var(--c-white); padding: 12px 18px; border-radius: var(--radius-s);
-      font-weight: 700; text-decoration: none;
-    }
-    .skip-link:focus { top: 12px; }
-
-    section[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
-    .section { padding-block: var(--section-y); }
-    .section--alt { background: var(--c-surface); }
-    .section__head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 1.5rem + 2vw, 3rem); }
-    .section__title { font-size: var(--fs-h2); font-weight: 800; }
-    .section__lead { color: var(--c-muted); font-size: var(--fs-body); margin: 0; }
-    .eyebrow {
-      display: inline-block; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-small);
-      color: var(--c-primary-dark); background: var(--c-primary-soft); padding: 4px 14px; border-radius: 999px;
-      margin-bottom: 0.75rem;
-    }
-
-    /* ========== 3. Кнопки ========== */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
-      min-height: 48px; padding: 0.7em 1.5em;
-      font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; line-height: 1.2;
-      text-decoration: none; border: 0; border-radius: 999px; cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .btn--primary { background: var(--c-primary); color: var(--c-white); box-shadow: 0 6px 0 var(--c-primary-dark); }
-    .btn--primary:hover { background: var(--c-primary-hover); transform: translateY(-2px); box-shadow: 0 8px 0 var(--c-primary-dark); }
-    .btn--primary:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--c-primary-dark); }
-    .btn--accent { background: var(--c-accent); color: var(--c-text); box-shadow: 0 6px 0 var(--c-accent-hover); }
-    .btn--accent:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--c-accent-hover); }
-    .btn--accent:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--c-accent-hover); }
-    .btn--ghost { background: var(--c-surface); color: var(--c-primary-dark); box-shadow: inset 0 0 0 2px var(--c-border), 0 4px 0 var(--c-border); }
-    .btn--ghost:hover { transform: translateY(-2px); }
-    .btn--ghost:active { transform: translateY(3px); box-shadow: inset 0 0 0 2px var(--c-border), 0 1px 0 var(--c-border); }
-    .btn--lg { min-height: 56px; font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); padding: 0.8em 1.8em; }
-    .btn--sm { min-height: 44px; padding: 0.5em 1.1em; font-size: 0.95rem; }
-    .btn:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 4px; border-radius: 999px; }
-
-    /* ========== 4. Шапка ========== */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--c-header-bg);
-      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--c-border);
-    }
-    .header__inner { display: flex; align-items: center; gap: 10px; min-height: var(--header-h); }
-    .logo {
-      display: inline-flex; align-items: center; min-height: 44px; margin-right: auto;
-      font-family: var(--font-head); font-weight: 800; font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
-      color: var(--c-text); text-decoration: none; white-space: nowrap; letter-spacing: -0.01em;
-    }
-    .logo span { color: var(--c-primary); }
-
-    .burger {
-      display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
-      width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-s);
-      background: var(--c-primary-soft); cursor: pointer;
-    }
-    .burger__line {
-      display: block; width: 22px; height: 3px; border-radius: 3px; background: var(--c-primary-dark);
-      transition: transform 0.25s ease, opacity 0.2s ease;
-    }
-    .burger[aria-expanded="true"] .burger__line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .burger[aria-expanded="true"] .burger__line:nth-child(2) { opacity: 0; }
-    .burger[aria-expanded="true"] .burger__line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-    .nav {
-      position: absolute; top: 100%; left: 0; right: 0;
-      background: var(--c-surface); border-bottom: 1px solid var(--c-border); box-shadow: var(--shadow);
-      padding: 8px var(--gutter) 16px;
-      opacity: 0; visibility: hidden; transform: translateY(-8px);
-      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
-    }
-    .nav.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s; }
-    .nav__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-    .nav__link {
-      display: flex; align-items: center; min-height: 48px; padding: 0 12px;
-      font-weight: 700; color: var(--c-text); text-decoration: none; border-radius: var(--radius-s);
-    }
-    .nav__link:hover { background: var(--c-primary-soft); color: var(--c-primary-dark); }
-
-    @media (min-width: 960px) {
-      .burger { display: none; }
-      .nav {
-        position: static; background: none; border: 0; box-shadow: none; padding: 0;
-        opacity: 1; visibility: visible; transform: none; transition: none;
-      }
-      .nav__list { flex-direction: row; gap: 4px; }
-      .nav__link { min-height: 44px; padding: 0 14px; }
-      .header__inner { gap: 16px; }
-    }
-
-    /* ========== 5. Hero ========== */
-    .hero { position: relative; overflow: hidden; padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem) var(--section-y); }
-    .hero::before {
-      content: ""; position: absolute; inset: auto -20% -40% -20%; height: 70%;
-      background: radial-gradient(closest-side, var(--c-primary-soft), transparent);
-      pointer-events: none;
-    }
-    .hero__inner { position: relative; z-index: 1; display: grid; gap: clamp(2rem, 1rem + 3vw, 3rem); align-items: center; }
-    .hero__text { text-align: center; }
-    .hero__badge {
-      display: inline-block; margin-bottom: 1rem; padding: 6px 16px; border-radius: 999px;
-      background: var(--c-accent-soft); color: var(--c-text); font-weight: 800; font-size: var(--fs-small);
-      box-shadow: inset 0 0 0 2px var(--c-accent);
-    }
-    .hero__title {
-      font-size: var(--fs-h1); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.3em;
-      color: var(--c-text);
-    }
-    .hero__title span { color: var(--c-primary); }
-    .hero__slogan { font-size: var(--fs-lead); font-weight: 700; color: var(--c-muted); max-width: 32ch; margin: 0 auto 1.75rem; }
-    .hero__actions { display: flex; flex-wrap: wrap; gap: 14px 16px; justify-content: center; }
-    .hero__art { position: relative; justify-self: center; width: min(100%, 440px); }
-
-    @media (min-width: 900px) {
-      .hero__inner { grid-template-columns: 1.1fr 0.9fr; }
-      .hero__text { text-align: left; }
-      .hero__slogan { margin-inline: 0; }
-      .hero__actions { justify-content: flex-start; }
-    }
-
-    /* Пиньята */
-    .pinyo { width: 100%; height: auto; transform-origin: 50% 0; animation: sway 3.4s ease-in-out infinite; }
-    @keyframes sway {
-      0%, 100% { transform: rotate(-4deg); }
-      50% { transform: rotate(4deg); }
-    }
-    .pinyo .p-pink   { fill: var(--cf-1); }
-    .pinyo .p-orange { fill: var(--cf-6); }
-    .pinyo .p-yellow { fill: var(--cf-2); }
-    .pinyo .p-green  { fill: var(--cf-4); }
-    .pinyo .p-blue   { fill: var(--cf-3); }
-    .pinyo .p-purple { fill: var(--cf-5); }
-    .pinyo .p-soft   { fill: var(--pinyo-soft); }
-    .pinyo .p-snout  { fill: var(--pinyo-snout); }
-    .pinyo .p-dark   { fill: var(--pinyo-line); }
-    .pinyo .p-white  { fill: var(--c-white); }
-    .pinyo .eye      { fill: var(--c-white); stroke: var(--pinyo-line); stroke-width: 3; }
-    .pinyo .brow     { fill: none; stroke: var(--pinyo-line); stroke-width: 3.5; stroke-linecap: round; }
-    .pinyo .rope     { fill: none; stroke: var(--pinyo-rope); stroke-width: 4; stroke-dasharray: 7 5; stroke-linecap: round; }
-    .pinyo .drop     { fill: var(--pinyo-drop); stroke: var(--pinyo-line); stroke-width: 1.5; }
-    .pinyo .fr-line  { fill: none; stroke: var(--pinyo-line); stroke-opacity: 0.16; stroke-width: 2; }
-    .pinyo .tail     { fill: none; stroke-width: 5; stroke-linecap: round; }
-    .pinyo .s-pink   { stroke: var(--cf-1); }
-    .pinyo .s-yellow { stroke: var(--cf-2); }
-    .pinyo .s-blue   { stroke: var(--cf-3); }
-
-    /* Конфетти */
-    .confetti { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-    .confetti__piece {
-      position: absolute; top: -24px; left: var(--x);
-      width: 10px; height: 16px; border-radius: 3px;
-      background: var(--cf-1); opacity: 0.85;
-      animation: confetti-fall var(--d, 8s) linear var(--delay, 0s) infinite;
-      will-change: transform;
-    }
-    .confetti__piece:nth-child(6n+2) { background: var(--cf-2); }
-    .confetti__piece:nth-child(6n+3) { background: var(--cf-3); width: 12px; height: 12px; border-radius: 50%; }
-    .confetti__piece:nth-child(6n+4) { background: var(--cf-4); }
-    .confetti__piece:nth-child(6n+5) { background: var(--cf-5); width: 8px; height: 18px; }
-    .confetti__piece:nth-child(6n)   { background: var(--cf-6); width: 12px; height: 12px; border-radius: 50%; }
-    @keyframes confetti-fall {
-      0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
-      100% { transform: translate3d(var(--drift, 40px), 1100px, 0) rotate(720deg); }
-    }
-
-    /* Общий стиль иконок: один viewBox 24×24 и один размер — одинаковая толщина линий */
-    .icon {
-      width: var(--icon-size); height: var(--icon-size); flex: none;
-      fill: none; stroke: var(--icon-line); stroke-width: var(--icon-stroke);
-      stroke-linecap: round; stroke-linejoin: round;
-    }
-
-    /* ========== 6. История ========== */
-    .story__card {
-      background: var(--c-surface); border-radius: var(--radius-l); box-shadow: var(--shadow);
-      padding: clamp(1.5rem, 1rem + 2.5vw, 2.75rem); border: 2px solid var(--c-border);
-    }
-    .story__card p { font-size: var(--fs-body); }
-    .story__card p:last-of-type { margin-bottom: 0; }
-    .story__card strong { color: var(--c-primary-dark); }
-    /* След из конфетти и фантиков — внизу карточки, значки соединены пунктиром */
-    .story__trail {
-      position: relative; display: flex; justify-content: space-between; align-items: center;
-      margin-top: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-    }
-    .story__trail::before {
-      content: ""; position: absolute; left: 26px; right: 26px; top: 50%;
-      border-top: 2px dashed var(--icon-trail); opacity: 0.35;
-    }
-    .story__chip {
-      position: relative; display: grid; place-items: center; width: 52px; height: 52px;
-      border-radius: 50%; background: var(--c-accent-soft); box-shadow: 0 0 0 4px var(--c-surface);
-    }
-    .story__chip:nth-child(even) { background: var(--c-primary-soft); }
-
-    /* ========== 7. Особенности ========== */
-    .features { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
-    .feature {
-      background: var(--c-bg); border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-      border: 2px solid var(--c-border); box-shadow: var(--shadow);
-      transition: transform 0.2s ease;
-    }
-    .feature:hover { transform: translateY(-4px); }
-    .feature__icon {
-      display: grid; place-items: center; width: 60px; height: 60px; margin-bottom: 1rem;
-      border-radius: 18px; background: var(--c-accent-soft);
-    }
-    .feature:nth-child(even) .feature__icon { background: var(--c-primary-soft); }
-    .feature__title { font-size: var(--fs-h3); font-weight: 700; margin-bottom: 0.35em; }
-    .feature__text { color: var(--c-muted); margin: 0; }
-
-    /* ========== 8. Скриншоты ========== */
-    .shots { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
-    .shot {
-      position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in;
-      border-radius: var(--radius); overflow: hidden; background: var(--c-border); box-shadow: var(--shadow);
-      aspect-ratio: 1684 / 654; transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .shot:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 4px; border-radius: var(--radius); }
-    /* Пропорция карточки совпадает со скриншотами, поэтому cover ничего не обрезает */
-    .shot img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Лайтбокс */
-    .lightbox {
-      width: min(960px, 92vw); max-width: none; max-height: 90vh; padding: 0; border: 0; overflow: visible;
-      background: transparent; color: var(--c-white);
-    }
-    .lightbox::backdrop { background: var(--c-overlay); }
-    .lightbox[open] { animation: lb-in 0.22s ease-out; }
-    @keyframes lb-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
-    .lightbox__figure { margin: 0; }
-    .lightbox__media { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--c-surface); }
-    .lightbox__media img { width: 100%; height: auto; max-height: 78vh; object-fit: contain; }
-    .lightbox__caption { margin-top: 12px; text-align: center; font-weight: 700; color: var(--c-white); }
-    .lightbox__close {
-      position: absolute; top: -56px; right: 0; width: 48px; height: 48px;
-      display: grid; place-items: center; border: 0; border-radius: 50%; cursor: pointer;
-      background: var(--c-surface); color: var(--c-text); font-size: 2rem; line-height: 1;
-      transition: transform 0.15s ease;
-    }
-    .lightbox__close:hover { transform: rotate(90deg); }
-    .lightbox__close:active { transform: scale(0.92); }
-    .lightbox__close:focus-visible { outline: 3px solid var(--c-accent); outline-offset: 3px; border-radius: 50%; }
-
-    /* ========== 9. Как начать ========== */
-    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); counter-reset: step; }
-    .step {
-      position: relative; counter-increment: step;
-      background: var(--c-surface); border-radius: var(--radius); border: 2px solid var(--c-border); box-shadow: var(--shadow);
-      padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-    }
-    .step::before {
-      content: counter(step);
-      display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 1rem;
-      font-family: var(--font-head); font-weight: 800; font-size: 1.6rem;
-      color: var(--c-white); background: var(--c-primary); border-radius: 50%;
-      box-shadow: 0 4px 0 var(--c-primary-dark);
-    }
-    .step__title { font-size: var(--fs-h3); font-weight: 700; margin-bottom: 0.35em; }
-    .step__text { color: var(--c-muted); margin: 0; }
-    .steps-cta { display: flex; justify-content: center; margin-top: clamp(2rem, 1.5rem + 2vw, 3rem); }
-
-    /* ========== 10. FAQ ========== */
-    .faq { max-width: 760px; margin-inline: auto; display: grid; gap: 12px; }
-    .faq__item { background: var(--c-bg); border: 2px solid var(--c-border); border-radius: var(--radius); }
-    .faq__item[open] { border-color: var(--c-primary-soft); box-shadow: var(--shadow); }
-    .faq__q {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      min-height: 56px; padding: 14px 20px; cursor: pointer; list-style: none;
-      font-family: var(--font-head); font-weight: 700; font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
-      border-radius: var(--radius);
-    }
-    .faq__q::-webkit-details-marker { display: none; }
-    .faq__q::after {
-      content: "+"; flex: none; display: grid; place-items: center; width: 32px; height: 32px;
-      border-radius: 50%; background: var(--c-primary-soft); color: var(--c-primary-dark);
-      font-size: 1.4rem; line-height: 1; transition: transform 0.2s ease;
-    }
-    .faq__item[open] .faq__q::after { transform: rotate(45deg); }
-    .faq__q:focus-visible { outline-offset: -3px; border-radius: var(--radius); }
-    .faq__a { padding: 0 20px 18px; margin: 0; color: var(--c-muted); }
-
-    /* ========== 11. Подвал ========== */
-    .footer { background: var(--c-footer-bg); color: var(--c-footer-text); padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem); }
-    .footer__inner { display: grid; gap: 1.5rem; justify-items: center; text-align: center; }
-    .footer__logo { font-family: var(--font-head); font-weight: 800; font-size: 1.5rem; color: var(--c-white); }
-    .footer__logo span { color: var(--c-accent); }
-    .footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-    .footer__link {
-      display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
-      color: var(--c-white); text-decoration: none; font-weight: 700;
-      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.28); transition: background-color 0.15s ease;
-    }
-    .footer__link:hover { background: rgba(255, 255, 255, 0.1); }
-    .footer__link:focus-visible { outline-color: var(--c-accent); border-radius: 999px; }
-    .footer__copy, .footer__note { margin: 0; font-size: var(--fs-small); }
-    .footer__note { opacity: 0.9; }
-
-    /* ========== 12. Появление при прокрутке ========== */
-    .reveal-on .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal-on .reveal.is-visible { opacity: 1; transform: none; }
-
-    /* ========== 13. Меньше движения ========== */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .confetti { display: none; }
-      .pinyo { transform: none; }
-      .reveal-on .reveal { opacity: 1; transform: none; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 
   <!-- ========== ШАПКА ========== -->
   <header class="header">
-    <div class="container header__inner">
-      <a class="logo" href="#top" aria-label="Party Cleanup! — в начало страницы">Party&nbsp;<span>Cleanup!</span></a>
-
-      <nav class="nav" id="site-nav" aria-label="Основное меню">
-        <ul class="nav__list">
-          <li><a class="nav__link" href="#story">История</a></li>
-          <li><a class="nav__link" href="#features">Особенности</a></li>
-          <li><a class="nav__link" href="#screenshots">Скриншоты</a></li>
-          <li><a class="nav__link" href="#start">Как начать</a></li>
-          <li><a class="nav__link" href="#faq">FAQ</a></li>
-        </ul>
-      </nav>
-
-      <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть») -->
-      <a class="btn btn--primary btn--sm" href="#" target="_blank" rel="noopener">Следить</a>
-
-      <button class="burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
-        <span class="burger__line" aria-hidden="true"></span>
-        <span class="burger__line" aria-hidden="true"></span>
-        <span class="burger__line" aria-hidden="true"></span>
-      </button>
-    </div>
+    <a class="logo" href="#top" aria-label="Party Cleanup! — в начало страницы">Party Cleanup!</a>
+    <nav class="nav" id="site-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+        <li><a href="#story">История</a></li>
+        <li><a href="#house">Дом</a></li>
+        <li><a href="#tools">Инструменты</a></li>
+        <li><a href="#clues">Улики</a></li>
+        <li><a href="#faq">Вопросы</a></li>
+      </ul>
+    </nav>
+    <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу -->
+    <a class="btn btn--candy btn--sm header__cta" href="#">Скоро в Roblox</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
+  <!-- ========== HUD: прогресс уборки ========== -->
+  <div class="hud" aria-hidden="true">
+    <img class="hud__icon" src="assets/icons/icon_bag.webp" alt="" width="44" height="44">
+    <div class="hud__body">
+      <span class="hud__label">Убрано <b class="hud__value">0%</b></span>
+      <span class="hud__bar"><span class="hud__fill"></span></span>
+    </div>
+  </div>
+
   <main id="main">
-    <!-- ========== HERO ========== -->
+
+    <!-- ========== 1. ПЕРВЫЙ ЭКРАН ========== -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="confetti" aria-hidden="true">
-        <span class="confetti__piece" style="--x:3%;  --d:9s;  --delay:-1s;  --drift:30px"></span>
-        <span class="confetti__piece" style="--x:10%; --d:11s; --delay:-6s;  --drift:-40px"></span>
-        <span class="confetti__piece" style="--x:17%; --d:8s;  --delay:-3s;  --drift:50px"></span>
-        <span class="confetti__piece" style="--x:24%; --d:12s; --delay:-9s;  --drift:-20px"></span>
-        <span class="confetti__piece" style="--x:31%; --d:10s; --delay:-2s;  --drift:35px"></span>
-        <span class="confetti__piece" style="--x:38%; --d:9s;  --delay:-7s;  --drift:-45px"></span>
-        <span class="confetti__piece" style="--x:45%; --d:13s; --delay:-4s;  --drift:25px"></span>
-        <span class="confetti__piece" style="--x:52%; --d:8s;  --delay:-5s;  --drift:-30px"></span>
-        <span class="confetti__piece" style="--x:59%; --d:11s; --delay:-10s; --drift:40px"></span>
-        <span class="confetti__piece" style="--x:66%; --d:9s;  --delay:-1.5s;--drift:-35px"></span>
-        <span class="confetti__piece" style="--x:73%; --d:12s; --delay:-8s;  --drift:20px"></span>
-        <span class="confetti__piece" style="--x:80%; --d:10s; --delay:-3.5s;--drift:-50px"></span>
-        <span class="confetti__piece" style="--x:86%; --d:8s;  --delay:-6.5s;--drift:30px"></span>
-        <span class="confetti__piece" style="--x:92%; --d:11s; --delay:-2.5s;--drift:-25px"></span>
-        <span class="confetti__piece" style="--x:96%; --d:9s;  --delay:-9.5s;--drift:-40px"></span>
-        <span class="confetti__piece" style="--x:49%; --d:14s; --delay:-12s; --drift:45px"></span>
+      <canvas class="hero__confetti" aria-hidden="true"></canvas>
+
+      <h1 class="hero__title" id="hero-title">
+        <span class="hero__line">Party</span>
+        <span class="hero__line hero__line--2">Cleanup!</span>
+      </h1>
+
+      <div class="hero__junk" aria-hidden="true">
+        <img class="junk junk--1" src="assets/icons/clue_8_streamer_nest.webp" alt="" width="320" height="320">
+        <img class="junk junk--2" src="assets/icons/clue_4_candy_bowl.webp" alt="" width="320" height="320">
+        <img class="junk junk--3" src="assets/icons/clue_5_broken_bat.webp" alt="" width="320" height="320">
+        <img class="junk junk--4" src="assets/icons/clue_3_torn_box.webp" alt="" width="320" height="320">
+        <img class="junk junk--5" src="assets/icons/icon_money.webp" alt="" width="320" height="320">
+        <img class="junk junk--6" src="assets/icons/clue_6_wet_paper.webp" alt="" width="320" height="320">
       </div>
 
-      <div class="container hero__inner">
-        <div class="hero__text">
-          <p class="hero__badge">🎉 Скоро в Roblox</p>
-          <h1 class="hero__title" id="hero-title">Party <span>Cleanup!</span></h1>
-          <!--
-            Варианты слогана:
-            1) «Вечеринка удалась. Теперь убери всё, пока родители не вернулись!»  ← используется
-            2) «Конфетти везде. Времени мало. Пиньята сбежала!»
-            3) «Устроил хаос — наведи порядок!»
-          -->
-          <p class="hero__slogan">Вечеринка удалась. Теперь убери всё, пока родители не вернулись!</p>
-          <div class="hero__actions">
-            <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть в Roblox») -->
-            <a class="btn btn--primary btn--lg" href="#" target="_blank" rel="noopener">Следить за выходом</a>
-            <a class="btn btn--ghost btn--lg" href="#story">Что случилось?</a>
-          </div>
+      <div class="hero__pinyo" aria-hidden="true">
+        <img class="hero__pinyo-img" src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000">
+      </div>
+
+      <div class="hero__lede">
+        <p class="hero__hint" aria-hidden="true">
+          <img src="assets/icons/tool_blower.webp" alt="" width="320" height="320">
+          <span class="hint-mouse">Поводи мышкой — это воздуходувка</span>
+          <span class="hint-touch">Проведи пальцем — сдуешь конфетти</span>
+        </p>
+        <p>Пока родителей не было, вечеринка вышла из-под контроля. Убери дом до их возвращения — и выясни, куда сбежала пиньята.</p>
+        <div class="hero__actions">
+          <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода — на игру) -->
+          <a class="btn btn--candy" href="#">Следить за выходом</a>
+          <a class="btn btn--ghost" href="#story">Что случилось?</a>
         </div>
+      </div>
 
-        <div class="hero__art">
-          <!-- Пиньята Pinyo -->
-          <svg class="pinyo" viewBox="15 0 320 290" width="440" height="399" aria-hidden="true" focusable="false">
-            <defs>
-              <pattern id="fringe" width="10" height="13" patternUnits="userSpaceOnUse">
-                <path class="fr-line" d="M0 13 L5 6 L10 13"/>
-              </pattern>
-              <clipPath id="body-clip">
-                <rect x="70" y="135" width="190" height="85" rx="36"/>
-              </clipPath>
-            </defs>
+      <img class="blower-cursor" src="assets/icons/tool_blower.webp" alt="" width="320" height="320" aria-hidden="true">
+    </section>
 
-            <!-- верёвка -->
-            <path class="rope" d="M175 0 V140"/>
+    <!-- ========== 2. ИСТОРИЯ (комикс) ========== -->
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="story__pin">
+        <div class="story__track">
+          <div class="story__intro">
+            <h2 class="story__title" id="story-title">Пока родителей не было…</h2>
+            <p class="story__lead">Шесть кадров из заставки игры. Листай дальше — и узнаешь, откуда в доме столько мусора.</p>
+          </div>
 
-            <!-- хвост из ленточек -->
-            <path class="tail s-pink"   d="M76 160 q-34 -4 -46 18"/>
-            <path class="tail s-yellow" d="M74 166 q-26 6 -34 34"/>
-            <path class="tail s-blue"   d="M74 173 q-18 16 -18 44"/>
+          <figure class="panel panel--1">
+            <img src="assets/comics/intro_1.webp" alt="Родители машут из красной машины и уезжают, мальчик машет им с крыльца дома" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">Родители уезжают.</figcaption>
+            <span class="bubble bubble--r" aria-hidden="true">Пока-пока!</span>
+          </figure>
 
-            <!-- ноги -->
-            <rect class="p-purple" x="124" y="204" width="24" height="64" rx="8"/>
-            <rect x="124" y="204" width="24" height="64" rx="8" fill="url(#fringe)"/>
-            <rect class="p-blue" x="228" y="204" width="24" height="64" rx="8"/>
-            <rect x="228" y="204" width="24" height="64" rx="8" fill="url(#fringe)"/>
-            <rect class="p-orange" x="92" y="204" width="24" height="66" rx="8"/>
-            <rect x="92" y="204" width="24" height="66" rx="8" fill="url(#fringe)"/>
-            <rect class="p-green" x="196" y="204" width="24" height="66" rx="8"/>
-            <rect x="196" y="204" width="24" height="66" rx="8" fill="url(#fringe)"/>
-            <rect class="p-dark" x="92"  y="262" width="24" height="10" rx="4"/>
-            <rect class="p-dark" x="196" y="262" width="24" height="10" rx="4"/>
-            <rect class="p-dark" x="124" y="260" width="24" height="10" rx="4"/>
-            <rect class="p-dark" x="228" y="260" width="24" height="10" rx="4"/>
+          <figure class="panel panel--2">
+            <img src="assets/comics/intro_2.webp" alt="Вечер, во дворе надувной замок, гирлянды и друзья, которые бегут на праздник" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">Дом пустой — значит, вечеринка!</figcaption>
+          </figure>
 
-            <!-- шея -->
-            <polygon class="p-yellow" points="212,150 254,150 268,96 228,88"/>
-            <polygon points="212,150 254,150 268,96 228,88" fill="url(#fringe)"/>
+          <figure class="panel panel--3">
+            <img src="assets/comics/intro_3.webp" alt="Друзья с подарками заходят в дом, хозяин радостно открывает дверь" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">Гости, подарки, батут…</figcaption>
+          </figure>
 
-            <!-- тело в радужной бахроме -->
-            <g clip-path="url(#body-clip)">
-              <rect class="p-pink"   x="70" y="135" width="190" height="13"/>
-              <rect class="p-orange" x="70" y="148" width="190" height="13"/>
-              <rect class="p-yellow" x="70" y="161" width="190" height="13"/>
-              <rect class="p-green"  x="70" y="174" width="190" height="13"/>
-              <rect class="p-blue"   x="70" y="187" width="190" height="13"/>
-              <rect class="p-purple" x="70" y="200" width="190" height="13"/>
-              <rect class="p-pink"   x="70" y="213" width="190" height="13"/>
-              <rect x="70" y="135" width="190" height="85" fill="url(#fringe)"/>
-            </g>
+          <figure class="panel panel--4">
+            <img src="assets/comics/intro_4.webp" alt="Ночная вечеринка: конфетти, красные стаканчики, кто-то лежит в бассейне с мусором" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">…и всё вышло из-под контроля.</figcaption>
+            <span class="sfx" aria-hidden="true">БАБАХ!</span>
+          </figure>
 
-            <!-- уши -->
-            <ellipse class="p-pink" cx="232" cy="36" rx="10" ry="25" transform="rotate(-14 232 36)"/>
-            <ellipse class="p-soft" cx="232" cy="38" rx="4.5" ry="15" transform="rotate(-14 232 38)"/>
-            <ellipse class="p-pink" cx="260" cy="32" rx="10" ry="25" transform="rotate(10 260 32)"/>
-            <ellipse class="p-soft" cx="260" cy="34" rx="4.5" ry="15" transform="rotate(10 260 34)"/>
+          <figure class="panel panel--5">
+            <img src="assets/comics/intro_5.webp" alt="Пиньята-ослик Pinyo выглядывает из-за угла дома и подмигивает" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">А пиньята-ослик Pinyo… ожила.</figcaption>
+            <span class="bubble bubble--l" aria-hidden="true">…ой.</span>
+          </figure>
 
-            <!-- голова -->
-            <rect class="p-pink" x="210" y="52" width="98" height="60" rx="28"/>
-            <rect x="210" y="52" width="98" height="60" rx="28" fill="url(#fringe)"/>
+          <figure class="panel panel--6">
+            <img src="assets/comics/intro_6.webp" alt="Утро: двор завален мусором, мальчик с метлой, звенит будильник" width="1600" height="900" loading="lazy">
+            <figcaption class="caption">Утро. Родители едут домой.</figcaption>
+          </figure>
 
-            <!-- морда -->
-            <ellipse class="p-snout" cx="297" cy="93" rx="22" ry="19"/>
-            <ellipse class="p-dark" cx="292" cy="86" rx="2.5" ry="3"/>
-            <ellipse class="p-dark" cx="304" cy="88" rx="2.5" ry="3"/>
-            <ellipse class="p-dark" cx="295" cy="103" rx="5" ry="6.5"/>
-
-            <!-- испуганные глаза -->
-            <circle class="eye" cx="240" cy="77" r="15"/>
-            <circle class="eye" cx="270" cy="75" r="15"/>
-            <circle class="p-dark" cx="236" cy="81" r="5.5"/>
-            <circle class="p-dark" cx="266" cy="79" r="5.5"/>
-            <circle class="p-white" cx="238" cy="79" r="2"/>
-            <circle class="p-white" cx="268" cy="77" r="2"/>
-            <path class="brow" d="M226 55 Q238 46 250 52"/>
-            <path class="brow" d="M258 50 Q270 43 283 50"/>
-
-            <!-- капля пота -->
-            <path class="drop" d="M320 52 q7 11 0 15 q-7 -4 0 -15z"/>
-          </svg>
+          <div class="story__outro">
+            <img src="assets/icons/icon_timer.webp" alt="" width="320" height="320">
+            <p>Твоя задача — убрать дом, пока не прозвенел таймер.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== ИСТОРИЯ ========== -->
-    <section class="section section--alt" id="story" aria-labelledby="story-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="eyebrow">Что случилось?</p>
-          <h2 class="section__title" id="story-title">История</h2>
+    <!-- ========== 3. ДОМ: 9 локаций ========== -->
+    <section class="house paper" id="house" aria-labelledby="house-title">
+      <div class="mess" aria-hidden="true"></div>
+      <div class="wrap house__grid">
+        <div class="house__text">
+          <h2 class="house__title" id="house-title">9 мест, где ты будешь убирать</h2>
+          <p class="house__list">
+            <button class="loc" type="button" data-shot="yard">двор</button>,
+            <span class="loc">крыша магазина</span>,
+            <button class="loc" type="button" data-shot="garage">гараж</button>,
+            <button class="loc" type="button" data-shot="kitchen">кухня</button>,
+            <span class="loc">патио</span>,
+            <span class="loc">бассейн</span>,
+            <span class="loc">парковка</span>,
+            <span class="loc">сад</span> и&nbsp;<span class="loc">подвал</span>.
+          </p>
+          <p class="note">подчёркнутые — нажми, там есть фото</p>
         </div>
-        <div class="story reveal">
-          <div class="story__card">
-            <p>Родителей нет дома — значит, можно устроить <strong>вечеринку</strong>! Музыка, танцы, конфетти… Но всё очень быстро вышло из-под контроля.</p>
-            <p>Теперь в доме полный беспорядок, а родители скоро вернутся. Хватай метлу, зови друзей и убирай всё, пока не поздно!</p>
-            <p>А главная виновница хаоса — <strong>пиньята-ослик Pinyo</strong>. Она ожила, убегает и прячется, а за ней тянется след из конфетти и фантиков. Собирай улики и узнай, кто всё это устроил!</p>
-            <div class="story__trail" aria-hidden="true">
-              <span class="story__chip">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20 8.5 8.5l7 7z"/><path d="M13 3.5v2M18.5 5.5 17 7M20.5 11h-2"/><path d="M10.5 3.5l.5.5M20 15.5l.5.5"/></svg>
-              </span>
-              <span class="story__chip">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M8.2 10.8 3 8v8l5.2-2.8M15.8 10.8 21 8v8l-5.2-2.8"/><path d="M11 8.2q2 3.8 0 7.6"/></svg>
-              </span>
-              <span class="story__chip">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20 8.5 8.5l7 7z"/><path d="M13 3.5v2M18.5 5.5 17 7M20.5 11h-2"/><path d="M10.5 3.5l.5.5M20 15.5l.5.5"/></svg>
-              </span>
-              <span class="story__chip">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M8.2 10.8 3 8v8l5.2-2.8M15.8 10.8 21 8v8l-5.2-2.8"/><path d="M11 8.2q2 3.8 0 7.6"/></svg>
-              </span>
+
+        <ul class="photos">
+          <li class="photo photo--overview">
+            <button class="shot" type="button" data-shot="overview" data-caption="Весь участок сверху: дом, бассейн, двор и парковка">
+              <img src="assets/shots/overview.webp" alt="Вид сверху на весь участок: дом с розовой крышей, бассейн, двор с батутом и парковка, всё усыпано мусором" width="950" height="527" loading="lazy">
+            </button>
+            <span class="photo__label">вид сверху</span>
+          </li>
+          <li class="photo photo--yard">
+            <button class="shot" type="button" data-shot="yard" data-caption="Двор после вечеринки">
+              <img src="assets/shots/yard.webp" alt="Двор за забором: надувной замок, полосатый шатёр и газон в конфетти" width="1687" height="657" loading="lazy">
+            </button>
+            <span class="photo__label">двор</span>
+          </li>
+          <li class="photo photo--kitchen">
+            <button class="shot" type="button" data-shot="kitchen" data-caption="Кухня-гостиная">
+              <img src="assets/shots/kitchen.webp" alt="Кухня-гостиная: голубые диваны, гирлянда флажков и весь пол в разноцветном мусоре" width="1687" height="657" loading="lazy">
+            </button>
+            <span class="photo__label">кухня</span>
+          </li>
+          <li class="photo photo--garage">
+            <button class="shot" type="button" data-shot="garage" data-caption="Гараж">
+              <img src="assets/shots/garage.webp" alt="Гараж: голубая машина, велосипед и пол, засыпанный мусором" width="1687" height="657" loading="lazy">
+            </button>
+            <span class="photo__label">гараж</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 4. ИНСТРУМЕНТЫ И ПРОКАЧКА ========== -->
+    <section class="tools" id="tools" aria-labelledby="tools-title">
+      <div class="mess" aria-hidden="true"></div>
+      <div class="wrap">
+        <h2 class="tools__title" id="tools-title">Чем убирать</h2>
+
+        <div class="tools__layout">
+          <div class="hotbar" role="tablist" aria-label="Инструменты">
+            <button class="slot is-active" type="button" role="tab" id="tab-hand" aria-selected="true" aria-controls="panel-hand">
+              <span class="slot__key">1</span>
+              <img src="assets/icons/tool_hand.webp" alt="" width="320" height="320">
+              <span class="slot__name">Руки</span>
+            </button>
+            <button class="slot" type="button" role="tab" id="tab-broom" aria-selected="false" aria-controls="panel-broom" tabindex="-1">
+              <span class="slot__key">2</span>
+              <img src="assets/icons/tool_broom.webp" alt="" width="320" height="320">
+              <span class="slot__name">Метла</span>
+            </button>
+            <button class="slot" type="button" role="tab" id="tab-blower" aria-selected="false" aria-controls="panel-blower" tabindex="-1">
+              <span class="slot__key">3</span>
+              <img src="assets/icons/tool_blower.webp" alt="" width="320" height="320">
+              <span class="slot__name">Воздуходувка</span>
+            </button>
+            <p class="hotbar__note">…и пылесос!</p>
+          </div>
+
+          <div class="upgrades">
+            <div class="upgrades__panel" role="tabpanel" id="panel-hand" aria-labelledby="tab-hand">
+              <p class="upgrades__text">Хватай мусор и неси в мешок. Прокачай руки — будешь брать больше и быстрее.</p>
+              <ul class="upgrades__list">
+                <li><img src="assets/icons/upgrade_grasp.webp" alt="" width="320" height="320">Хватка</li>
+                <li><img src="assets/icons/upgrade_dexterity.webp" alt="" width="320" height="320">Ловкость</li>
+                <li><img src="assets/icons/upgrade_hold.webp" alt="" width="320" height="320">Удержание</li>
+                <li><img src="assets/icons/upgrade_bag.webp" alt="" width="320" height="320">Мешок</li>
+              </ul>
+            </div>
+            <div class="upgrades__panel" role="tabpanel" id="panel-broom" aria-labelledby="tab-broom" hidden>
+              <p class="upgrades__text">Сметает мусор кучей. Прокачай — и одним взмахом уберёшь пол-комнаты.</p>
+              <ul class="upgrades__list">
+                <li><img src="assets/icons/upgrade_broom_radius.webp" alt="" width="320" height="320">Радиус</li>
+                <li><img src="assets/icons/upgrade_broom_range.webp" alt="" width="320" height="320">Дальность</li>
+                <li><img src="assets/icons/upgrade_broom_capacity.webp" alt="" width="320" height="320">Вместимость</li>
+              </ul>
+            </div>
+            <div class="upgrades__panel" role="tabpanel" id="panel-blower" aria-labelledby="tab-blower" hidden>
+              <p class="upgrades__text">Сдувает конфетти даже из углов. Прокачай мощность — и мусор полетит куда надо.</p>
+              <ul class="upgrades__list">
+                <li><img src="assets/icons/upgrade_blower_power.webp" alt="" width="320" height="320">Мощность</li>
+                <li><img src="assets/icons/upgrade_blower_width.webp" alt="" width="320" height="320">Ширина</li>
+                <li><img src="assets/icons/upgrade_blower_aim.webp" alt="" width="320" height="320">Прицел</li>
+              </ul>
             </div>
           </div>
         </div>
+
+        <div class="loop">
+          <ol class="loop__steps">
+            <li><img src="assets/icons/icon_bag.webp" alt="" width="320" height="320">Сдай мусор</li>
+            <li><img src="assets/icons/icon_money.webp" alt="" width="320" height="320">Получи деньги</li>
+            <li><img src="assets/icons/upgrade_broom.webp" alt="" width="320" height="320">Прокачай инструмент</li>
+          </ol>
+          <button class="shot loop__shot" type="button" data-caption="Окно прокачки: руки, метла и воздуходувка">
+            <img src="images/upgrades.jpg" alt="Скриншот игры: окно прокачки с улучшениями для рук, метлы и воздуходувки, ценами и кнопкой покупки" width="1684" height="654" loading="lazy">
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- ========== ОСОБЕННОСТИ ========== -->
-    <section class="section" id="features" aria-labelledby="features-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="eyebrow">Что внутри</p>
-          <h2 class="section__title" id="features-title">Особенности</h2>
-          <p class="section__lead">Убирай, прокачивайся и разгадай тайну пиньяты.</p>
+    <!-- ========== 5. УЛИКИ (журнал) ========== -->
+    <section class="clues" id="clues" aria-labelledby="clues-title">
+      <div class="wrap clues__layout">
+        <div class="journal">
+          <span class="tape tape--top" aria-hidden="true"></span>
+          <p class="journal__date">Журнал. Кто всё это устроил?</p>
+          <h2 class="journal__title" id="clues-title">Улики</h2>
+          <p class="journal__text">За Pinyo тянется след из конфетти и фантиков. Найди все 9 улик — и узнаешь, что случилось на самом деле.</p>
+          <p class="journal__count" aria-live="polite">Найдено <b class="clue-count">0</b> из 9 — нажимай на карточки</p>
+
+          <ul class="cluegrid">
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_1_tail.webp" alt="" width="320" height="320"><span>чей-то хвост</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_2_confetti_trail.webp" alt="" width="320" height="320"><span>след из конфетти</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_3_torn_box.webp" alt="" width="320" height="320"><span>порванная коробка</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_4_candy_bowl.webp" alt="" width="320" height="320"><span>пустая миска</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_5_broken_bat.webp" alt="" width="320" height="320"><span>сломанная бита</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_6_wet_paper.webp" alt="" width="320" height="320"><span>мокрая бумага</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_7_hoof_print.webp" alt="" width="320" height="320"><span>след копыта</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_8_streamer_nest.webp" alt="" width="320" height="320"><span>гнездо из серпантина</span></button></li>
+            <li><button class="clue" type="button" aria-pressed="false"><img src="assets/icons/clue_9_lair_drawing.webp" alt="" width="320" height="320"><span>рисунок логова</span></button></li>
+          </ul>
         </div>
-        <ul class="features">
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11 12 4l9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg>
-            </span>
-            <h3 class="feature__title">9 локаций</h3>
-            <p class="feature__text">Двор, крыша магазина, гараж, кухня, патио, бассейн, парковка, сад и подвал.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5V11"/><path d="M8.5 11h7l3 10h-13z"/><path d="M10 15.5 9.5 21M14 15.5l.5 5.5"/></svg>
-            </span>
-            <h3 class="feature__title">Инструменты и прокачка</h3>
-            <p class="feature__text">Руки, метла, воздуходувка и пылесос. Сдавай мусор — качай инструменты.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.1c.3-.1.7-.1 1-.1 2.8 0 4.5 2.2 4.5 5"/></svg>
-            </span>
-            <h3 class="feature__title">Играй с друзьями</h3>
-            <p class="feature__text">Кооператив до 4 игроков: вместе убирать быстрее!</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V10M10 2.5h4M12 2.5V6M18.5 6.5 20 5"/></svg>
-            </span>
-            <h3 class="feature__title">4 уровня сложности</h3>
-            <p class="feature__text">Раунд длится от 20 до 90 минут. Чем сложнее — тем меньше времени.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-            </span>
-            <h3 class="feature__title">Улики про Pinyo</h3>
-            <p class="feature__text">Собери коллекцию улик и узнай всю правду о пиньяте.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4h12l4 5-10 11L2 9z"/><path d="M2 9h20M9.5 4 8 9l4 11 4-11-1.5-5"/></svg>
-            </span>
-            <h3 class="feature__title">Гемы и награды</h3>
-            <p class="feature__text">Гемы, постоянные улучшения персонажа и награды каждый день.</p>
-          </li>
-        </ul>
+
+        <aside class="poster" aria-label="Объявление о пропаже Pinyo">
+          <p class="poster__title">Видели этого ослика?</p>
+          <div class="poster__photo">
+            <img src="assets/pinyo/pinyo_front.webp" alt="Pinyo — пиньята-ослик из разноцветной бахромы, смотрит испуганно" width="360" height="1000" loading="lazy">
+          </div>
+          <p class="poster__text">Зовут Pinyo. Пугливая. Оставляет за собой конфетти.</p>
+          <p class="poster__reveal">Все улики собраны: Pinyo не злодей — она просто боится.</p>
+        </aside>
       </div>
     </section>
 
-    <!-- ========== СКРИНШОТЫ ========== -->
-    <section class="section section--alt" id="screenshots" aria-labelledby="screenshots-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="eyebrow">Как это выглядит</p>
-          <h2 class="section__title" id="screenshots-title">Скриншоты</h2>
-          <p class="section__lead">Нажми на картинку, чтобы увеличить.</p>
-        </div>
-
-        <ul class="shots">
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Гараж после вечеринки">
-              <img src="images/garage.jpg" alt="Скриншот игры: гараж после вечеринки — пол усыпан стаканчиками и конфетти, в центре голубая машина" width="1684" height="654" loading="lazy">
-            </button>
-          </li>
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Кухня-гостиная">
-              <img src="images/kitchen.jpg" alt="Скриншот игры: кухня-гостиная после праздника — мусор на полу, обеденный стол с розовым тортом и кухонный гарнитур у стены" width="1684" height="654" loading="lazy">
-            </button>
-          </li>
-          <li class="reveal">
-            <button class="shot" type="button" data-caption="Прокачка инструментов">
-              <img src="images/upgrades.jpg" alt="Скриншот игры: окно прокачки инструментов — улучшения перчатки, метлы и воздуходувки с ценами и кнопкой покупки" width="1684" height="654" loading="lazy">
-            </button>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ========== КАК НАЧАТЬ ========== -->
-    <section class="section" id="start" aria-labelledby="start-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="eyebrow">Всего 3 шага</p>
-          <h2 class="section__title" id="start-title">Как начать</h2>
-        </div>
-        <ol class="steps">
-          <li class="step reveal">
-            <h3 class="step__title">Зайди в Roblox</h3>
-            <p class="step__text">Открой Roblox на компьютере или телефоне.</p>
-          </li>
-          <li class="step reveal">
-            <h3 class="step__title">Открой игру</h3>
-            <p class="step__text">Когда игра выйдет, нажми «Играть» на этой странице — и ты уже в доме.</p>
-          </li>
-          <li class="step reveal">
-            <h3 class="step__title">Убери дом и найди улики</h3>
-            <p class="step__text">Хватай метлу, зови друзей и разгадай тайну Pinyo.</p>
-          </li>
+    <!-- ========== 6. СЛОЖНОСТЬ, ДРУЗЬЯ, НАГРАДЫ ========== -->
+    <section class="modes" id="modes" aria-labelledby="modes-title">
+      <div class="mess" aria-hidden="true"></div>
+      <div class="wrap">
+        <h2 class="modes__title" id="modes-title">Сколько у тебя времени?</h2>
+        <p class="modes__lead">4 уровня сложности. Чем сложнее — тем короче раунд.</p>
+        <ol class="timers" aria-label="Длина раунда по уровням сложности">
+          <li class="timer timer--90"><b>90</b><span>минут</span></li>
+          <li class="timer timer--60"><b>60</b><span>минут</span></li>
+          <li class="timer timer--30"><b>30</b><span>минут</span></li>
+          <li class="timer timer--20"><b>20</b><span>минут</span></li>
         </ol>
-        <div class="steps-cta reveal">
-          <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода игры — на игру и текст «Играть в Roblox») -->
-          <a class="btn btn--accent btn--lg" href="#" target="_blank" rel="noopener">Следить за выходом</a>
+
+        <div class="coop">
+          <figure class="coop__pic">
+            <img src="assets/comics/intro_3.webp" alt="Трое друзей с подарками бегут в дом" width="1600" height="900" loading="lazy">
+          </figure>
+          <div class="coop__text">
+            <h3 class="coop__title">Вчетвером быстрее</h3>
+            <p>Зови до трёх друзей в свой дом: один метёт, другой сдувает, третий носит мешки.</p>
+          </div>
+        </div>
+
+        <p class="rewards">
+          А ещё — <span class="chip"><img src="assets/icons/icon_gem.webp" alt="" width="320" height="320">гемы</span>,
+          <span class="chip"><img src="assets/icons/stat_walkspeed.webp" alt="" width="320" height="320">постоянные улучшения</span>
+          и&nbsp;<span class="chip"><img src="assets/icons/button_daily.webp" alt="" width="320" height="320">награды каждый день</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== 7. НЕ УСПЕЛ? + КАК НАЧАТЬ + FAQ ========== -->
+    <section class="late paper" id="start" aria-labelledby="late-title">
+      <div class="mess" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="late__comic">
+          <figure class="panel panel--loss">
+            <img src="assets/comics/loss_2.webp" alt="Родители стоят на крыльце и в ужасе смотрят на двор, заваленный мусором" width="1600" height="900" loading="lazy">
+            <span class="bubble bubble--loss" aria-hidden="true">ЧТО ЗДЕСЬ БЫЛО?!</span>
+          </figure>
+          <h2 class="late__title" id="late-title">А если не успеешь — вот&nbsp;так.</h2>
+        </div>
+
+        <div class="late__grid">
+          <div class="todo">
+            <h3 class="todo__title">Как начать</h3>
+            <ol class="todo__list">
+              <li>Зайди в Roblox на компьютере или телефоне.</li>
+              <li>Когда игра выйдет, нажми «Играть» на этой странице.</li>
+              <li>Хватай метлу, зови друзей и ищи улики.</li>
+            </ol>
+          </div>
+
+          <div class="faq" id="faq">
+            <h3 class="faq__title">Частые вопросы</h3>
+            <details class="faq__item">
+              <summary>Бесплатна ли игра?</summary>
+              <p>Да, играть можно бесплатно. За робуксы есть необязательные улучшения.</p>
+            </details>
+            <details class="faq__item">
+              <summary>На каких устройствах работает?</summary>
+              <p>На компьютере и телефоне.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Можно ли играть с друзьями?</summary>
+              <p>Да, в одном доме может быть до 4 игроков.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Сколько длится раунд?</summary>
+              <p>От 20 до 90 минут — зависит от сложности.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Когда выйдет игра?</summary>
+              <p>Скоро. Нажми «Следить за выходом», чтобы не пропустить.</p>
+            </details>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== FAQ ========== -->
-    <section class="section section--alt" id="faq" aria-labelledby="faq-title">
-      <div class="container">
-        <div class="section__head reveal">
-          <p class="eyebrow">Вопросы</p>
-          <h2 class="section__title" id="faq-title">Частые вопросы</h2>
-        </div>
-        <div class="faq reveal">
-          <details class="faq__item">
-            <summary class="faq__q">Бесплатна ли игра?</summary>
-            <p class="faq__a">Да, играть можно бесплатно. За робуксы есть необязательные улучшения.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__q">На каких устройствах работает?</summary>
-            <p class="faq__a">На компьютере и телефоне.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__q">Можно ли играть с друзьями?</summary>
-            <p class="faq__a">Да, в комнате может быть до 4 игроков.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__q">Сколько длится раунд?</summary>
-            <p class="faq__a">От 20 до 90 минут — зависит от выбранной сложности.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__q">Сколько всего локаций?</summary>
-            <p class="faq__a">9: двор, крыша магазина, гараж, кухня, патио, бассейн, парковка, сад и подвал.</p>
-          </details>
+    <!-- ========== 8. ФИНАЛ ========== -->
+    <section class="finale" aria-labelledby="finale-title">
+      <div class="finale__inner wrap">
+        <h2 class="finale__title" id="finale-title">Дом чист. Почти.</h2>
+        <p class="finale__text">Party Cleanup! скоро выйдет в Roblox. Подпишись, чтобы узнать первым.</p>
+        <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода — на игру и текст «Играть в Roblox») -->
+        <a class="btn btn--candy btn--lg" href="#">Следить за выходом</a>
+        <div class="finale__bags" aria-hidden="true">
+          <img src="assets/icons/icon_bag.webp" alt="" width="320" height="320" loading="lazy">
+          <img src="assets/icons/upgrade_bag.webp" alt="" width="320" height="320" loading="lazy">
+          <img src="assets/icons/icon_bag.webp" alt="" width="320" height="320" loading="lazy">
+          <span>весь мусор — в мешках</span>
         </div>
       </div>
+      <img class="finale__pinyo" src="assets/pinyo/pinyo_side.webp" alt="" width="871" height="1000" loading="lazy" aria-hidden="true">
     </section>
   </main>
 
   <!-- ========== ПОДВАЛ ========== -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <p class="footer__logo">Party <span>Cleanup!</span></p>
+    <div class="wrap footer__inner">
+      <p class="footer__logo">Party Cleanup!</p>
       <ul class="footer__links">
         <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу -->
-        <li><a class="footer__link" href="#" target="_blank" rel="noopener">Группа в Roblox</a></li>
+        <li><a href="#">Группа в Roblox</a></li>
         <!-- ЗАМЕНИТЬ: href="#" на приглашение в Discord -->
-        <li><a class="footer__link" href="#" target="_blank" rel="noopener">Discord</a></li>
+        <li><a href="#">Discord</a></li>
       </ul>
-      <p class="footer__copy">© 2026 Party Cleanup!</p>
-      <p class="footer__note">Игра не является официальным продуктом Roblox Corporation</p>
+      <p class="footer__copy">© 2026 Party Cleanup!<br>Игра не является официальным продуктом Roblox Corporation.</p>
     </div>
   </footer>
 
@@ -793,111 +420,9 @@
     </figure>
   </dialog>
 
-  <script>
-    (function () {
-      'use strict';
-
-      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      /* ---------- Бургер-меню ---------- */
-      var burger = document.querySelector('.burger');
-      var nav = document.getElementById('site-nav');
-      var desktop = window.matchMedia('(min-width: 960px)');
-
-      function setMenu(open) {
-        burger.setAttribute('aria-expanded', String(open));
-        burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
-        nav.classList.toggle('is-open', open);
-      }
-
-      burger.addEventListener('click', function () {
-        setMenu(burger.getAttribute('aria-expanded') !== 'true');
-      });
-
-      nav.addEventListener('click', function (e) {
-        if (e.target.closest('a')) setMenu(false);
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && nav.classList.contains('is-open')) {
-          setMenu(false);
-          burger.focus();
-        }
-      });
-
-      document.addEventListener('click', function (e) {
-        if (nav.classList.contains('is-open') && !e.target.closest('.header')) setMenu(false);
-      });
-
-      desktop.addEventListener('change', function () { setMenu(false); });
-
-      /* ---------- Лайтбокс ---------- */
-      var dialog = document.getElementById('lightbox');
-      var media = dialog.querySelector('.lightbox__media');
-      var caption = dialog.querySelector('.lightbox__caption');
-      var closeBtn = dialog.querySelector('.lightbox__close');
-      var lastTrigger = null;
-      var hasModal = typeof dialog.showModal === 'function';
-
-      function openLightbox(trigger) {
-        lastTrigger = trigger;
-        media.replaceChildren();
-
-        var img = trigger.querySelector('img');
-        var big = new Image();
-        big.src = img.currentSrc || img.src;
-        big.alt = img.alt;
-        big.width = img.naturalWidth || img.getAttribute('width');
-        big.height = img.naturalHeight || img.getAttribute('height');
-        media.appendChild(big);
-        caption.textContent = trigger.dataset.caption || '';
-
-        if (hasModal) dialog.showModal(); else dialog.setAttribute('open', '');
-        closeBtn.focus();
-      }
-
-      function closeLightbox() {
-        if (hasModal) dialog.close(); else { dialog.removeAttribute('open'); onClosed(); }
-      }
-
-      function onClosed() {
-        if (lastTrigger) lastTrigger.focus();
-      }
-
-      document.querySelectorAll('.shot').forEach(function (btn) {
-        btn.addEventListener('click', function () { openLightbox(btn); });
-      });
-
-      closeBtn.addEventListener('click', closeLightbox);
-      dialog.addEventListener('close', onClosed);
-
-      // Клик вне картинки (по затемнению) закрывает окно
-      dialog.addEventListener('click', function (e) {
-        if (e.target === dialog) closeLightbox();
-      });
-
-      // Esc: у <dialog> работает сам; это — запасной вариант для старых браузеров
-      if (!hasModal) {
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && dialog.hasAttribute('open')) closeLightbox();
-        });
-      }
-
-      /* ---------- Появление разделов при прокрутке ---------- */
-      var items = document.querySelectorAll('.reveal');
-      if (!reduceMotion && 'IntersectionObserver' in window) {
-        document.documentElement.classList.add('reveal-on');
-        var observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-        items.forEach(function (el) { observer.observe(el); });
-      }
-    })();
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
