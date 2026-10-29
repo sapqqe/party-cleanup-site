@@ -1,10 +1,13 @@
-# Автоматическая публикация сайта Party Cleanup! на GitHub Pages.
-# Запускается сам при каждом push в ветку main.
+# Проверка и автоматическая публикация сайта Party Cleanup! на GitHub Pages.
+# push в main: проверить → собрать → опубликовать.
+# Pull Request: только проверить (сайт не публикуется, пока ветку не слили).
 
 name: Deploy static site   # название workflow на вкладке Actions
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
   workflow_dispatch:       # кнопка ручного запуска на вкладке Actions
 
@@ -16,31 +19,53 @@ permissions:
 
 # Если push пришёл во время публикации, новая публикация ждёт, а не обрывает старую
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
+  # Задание 1. Проверка качества: если здесь ошибка, до публикации дело не дойдёт
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # Линтер HTML: правила в файле .htmlvalidate.json
+      - name: Lint HTML
+        run: npx --yes html-validate@9.4.1 index.html
+
+      # Все картинки и файлы, на которые ссылается сайт, должны быть в репозитории
+      - name: Check file links
+        run: node scripts/check-files.mjs
+
+      # Сборка: в папку _site попадают только файлы сайта (без README, скриптов и настроек)
+      - name: Build site
+        run: |
+          mkdir _site
+          cp -r index.html style.css main.js assets images _site/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  # Задание 2. Публикация: только после успешной проверки и только для main
   deploy:
+    needs: check
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest   # виртуальная машина, на которой всё выполняется
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}   # ссылка на сайт в итогах запуска
     steps:
-      # 1. Скопировать файлы репозитория на виртуальную машину
-      - name: Checkout repository
-        uses: actions/checkout@v7
-
-      # 2. Подготовить GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      # 3. Упаковать сайт в архив-артефакт ('.' = вся папка проекта)
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: '.'
-
-      # 4. Опубликовать артефакт на GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
