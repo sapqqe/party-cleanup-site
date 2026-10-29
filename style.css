@@ -180,7 +180,8 @@ button { font: inherit; color: inherit; }
 .hero__lede p { font-size: clamp(15px, 1.25vw, 18px); font-weight: 600; line-height: 1.5; margin-bottom: 24px; text-wrap: pretty; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; }
 
-.hero__hint {
+/* через .hero__lede: иначе правило .hero__lede p перебивает размер подписи */
+.hero__lede .hero__hint {
   display: flex; align-items: center; gap: 4px;
   margin: 0 0 14px -6px;
   font-family: var(--hand); font-weight: 700; font-size: 26px; line-height: 1;
@@ -336,7 +337,7 @@ button { font: inherit; color: inherit; }
 .loc { font: inherit; white-space: nowrap; }
 button.loc {
   padding: 0; border: 0; background: none; cursor: pointer;
-  text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: .14em; text-underline-offset: .14em;
+  text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: .14em; text-underline-offset: .3em; /* ниже хвостов «д», «р», «у», чтобы буквы не перечёркивали линию */
   text-decoration-skip-ink: none; /* сплошная линия, без разрывов у «р», «у», «ж» */
   transition: color .15s;
 }
@@ -574,7 +575,7 @@ button.loc:hover, button.loc.is-hot { color: var(--pink-dark); }
   font-size: calc(var(--k) * min(19vw, 290px));
   color: var(--yellow);
 }
-.timer span { margin-top: 10px; font-size: clamp(11px, 1vw, 14px); font-weight: 600; color: rgba(255, 255, 255, .7); }
+.timer > span { margin-top: 10px; font-size: clamp(11px, 1vw, 14px); font-weight: 600; color: rgba(255, 255, 255, .7); }
 .timer--90 { --k: 1; }
 .timer--60 { --k: .667; }
 .timer--30 { --k: .38; }
@@ -783,7 +784,7 @@ button.loc:hover, button.loc.is-hot { color: var(--pink-dark); }
   .hero__lede p { font-size: 14.5px; margin-bottom: 18px; max-width: 30ch; }
   .hero__actions .btn { flex: 1 1 auto; padding: 15px 14px 16px; font-size: 14px; }
   .hero__actions .btn--ghost { display: none; }
-  .hero__hint { font-size: 22px; margin-bottom: 8px; }
+  .hero__lede .hero__hint { font-size: 22px; margin-bottom: 8px; }
   .hero__hint img { width: 44px; }
   .junk--1 { left: 70%; top: 31%; }
   .junk--2 { left: 6%; top: 47%; }
@@ -822,8 +823,8 @@ button.loc:hover, button.loc.is-hot { color: var(--pink-dark); }
 
   .timers { gap: 12px; }
   .timer b { font-size: calc(var(--k) * 19vw); }
-  .timer span { font-size: 10px; }
-  .timer:not(:first-child) span { visibility: hidden; width: 0; }
+  .timer > span { font-size: 10px; }
+  .timer:not(:first-child) > span { visibility: hidden; width: 0; }
 
   .rewards { line-height: 1.75; }
   .rewards { font-size: 19px; }
@@ -833,6 +834,113 @@ button.loc:hover, button.loc.is-hot { color: var(--pink-dark); }
   .finale__pinyo { height: 270px; right: var(--gutter); bottom: 36px; }
 
   .footer__copy { margin-left: 0; text-align: left; }
+}
+
+/* =========================================================
+   Мини-игра «Найди Pinyo»: она выглядывает из-за краёв
+   ========================================================= */
+.peek-host { position: relative; }
+.peek {
+  position: absolute; z-index: 4; bottom: 100%; left: var(--px, 50%);
+  width: clamp(72px, 7vw, 112px);
+  padding: 0; border: 0; background: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* видна только верхняя часть картинки: уши и голова */
+.peek__clip { display: block; aspect-ratio: 672 / 400; overflow: hidden; }
+.peek--flip .peek__clip { transform: scaleX(-1); }
+/* селектор посильнее: общие правила вроде .photo img (рамка, обрезка 4:3) не должны задевать Pinyo */
+.peek .peek__clip img {
+  display: block; width: 100%; height: auto;
+  border: 0; aspect-ratio: auto; object-fit: fill; box-shadow: none; max-width: none;
+  transform: translateY(40%); /* спряталась целиком */
+  transition: transform .45s cubic-bezier(.3, 1.6, .5, 1);
+}
+.peek.is-up .peek__clip img { transform: translateY(0); }
+.peek.is-shy .peek__clip img { transform: translateY(30%); transition-duration: .18s; transition-timing-function: ease-in; }
+.peek.is-found { pointer-events: none; }
+.peek:focus-visible { outline-offset: -2px; }
+
+/* на компьютере — пометка справа от кнопок (блок текста не растёт в высоту),
+   на планшете и телефоне — строкой под кнопками */
+.hero__lede .hero__hunt {
+  position: absolute; left: calc(100% + 26px); bottom: 2px; width: 15ch;
+  margin: 0;
+  font-family: var(--hand); font-weight: 700; font-size: 24px; line-height: 1.05;
+  color: var(--ink); rotate: -3deg;
+}
+/* 901–1199px: рядом с кнопками места нет, а ниже — упрёмся в заголовок.
+   Пометку прячем: об игре всё равно скажет сообщение, когда Pinyo впервые попадёт в кадр */
+@media (min-width: 901px) and (max-width: 1199px) {
+  .hero__lede .hero__hunt { display: none; }
+}
+@media (max-width: 900px) {
+  .hero__lede .hero__hunt { position: static; width: auto; margin: 16px 0 0; font-size: 22px; rotate: -2deg; }
+}
+
+.toast {
+  position: fixed; z-index: 60; left: 50%; bottom: 24px;
+  width: max-content; max-width: calc(100% - 32px);
+  padding: 12px 20px 13px;
+  background: var(--yellow); color: var(--ink);
+  border: var(--line); border-radius: 16px;
+  font-weight: 800; font-size: 15px; text-align: center;
+  box-shadow: 0 5px 0 rgba(28, 35, 70, .35);
+  transform: translate(-50%, 140%); opacity: 0;
+  transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), opacity .2s;
+  pointer-events: none;
+}
+.toast.is-on { transform: translate(-50%, 0); opacity: 1; }
+.toast.is-win { background: var(--lime); }
+
+.boom { position: fixed; z-index: 59; width: 9px; height: 14px; border-radius: 2px; pointer-events: none; }
+
+/* полоска прогресса в шапке — только на телефоне, вместо плашки HUD */
+.header__progress { display: none; }
+
+@media (max-width: 640px) {
+  .hud { display: none; }
+  /* не overflow:hidden у шапки — иначе обрежется выпадающее меню; полоска с отступами от скруглений */
+  .header__progress {
+    display: block; position: absolute; left: 16px; right: 16px; bottom: 3px; height: 4px;
+    border-radius: 99px; overflow: hidden;
+    background: rgba(255, 255, 255, .12);
+  }
+  .header__fill {
+    display: block; height: 100%;
+    background: var(--lime);
+    transform-origin: left; transform: scaleX(0);
+  }
+
+  /* облачко не выходит за край экрана; шапке хватает места даже на 320px */
+  .bubble--loss { left: auto; right: 4%; }
+  .header { gap: 8px; }
+  .burger { flex-shrink: 0; } /* кнопка меню всегда 44×44, сжиматься может только логотип */
+  /* «20» на телефоне крошечное: Pinyo поменьше и прижата к правому краю цифры */
+  .timer--20 .peek { width: 50px; left: auto; right: 0; }
+  .toast { bottom: 16px; font-size: 14px; }
+}
+
+/* невысокие ноутбуки: подсказка про воздуходувку поменьше, чтобы текст не наезжал на заголовок */
+@media (min-width: 641px) and (max-height: 800px) {
+  .hero__lede .hero__hint { font-size: 21px; }
+  .hero__lede p { margin-bottom: 16px; }
+}
+
+/* 360–400px: логотип чуть мельче, чтобы шапка помещалась целиком */
+@media (max-width: 400px) {
+  .logo { font-size: 13px; }
+}
+
+/* самые узкие телефоны (320px): все три элемента шапки не помещаются —
+   логотип прячем (название игры и так огромное на первом экране) */
+@media (max-width: 350px) {
+  .header { padding-left: 8px; }
+  .logo { display: none; }
+  .header__cta { margin-right: auto; }
+  .burger { flex-shrink: 0; }
+  /* плашка «постоянные улучшения» не переносится и на 320px не влезала в экран */
+  .rewards { font-size: 16px; }
 }
 
 /* ---------- Без анимаций для тех, кто так попросил ---------- */

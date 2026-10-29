@@ -42,18 +42,22 @@
         <li><a href="#faq">Вопросы</a></li>
       </ul>
     </nav>
-    <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу -->
-    <a class="btn btn--candy btn--sm header__cta" href="#">Скоро в Roblox</a>
+    <!-- Группа студии в Roblox; после выхода — ссылка на саму игру -->
+    <a class="btn btn--candy btn--sm header__cta" href="https://www.roblox.com/communities/419500321/Arozy-Team#!/about" target="_blank" rel="noopener">Скоро в Roblox</a>
+    <span class="header__progress" aria-hidden="true"><span class="header__fill"></span></span>
     <button class="burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
       <span></span><span></span><span></span>
     </button>
   </header>
 
+  <!-- Сообщения мини-игры «Найди Pinyo» -->
+  <p class="toast" role="status" aria-live="polite"></p>
+
   <!-- ========== HUD: прогресс уборки ========== -->
   <div class="hud" aria-hidden="true">
     <img class="hud__icon" src="assets/icons/icon_bag.webp" alt="" width="44" height="44">
     <div class="hud__body">
-      <span class="hud__label">Убрано <b class="hud__value">0%</b></span>
+      <span class="hud__label">Убрано <b class="hud__value">0%</b><span class="hud__pinyo" hidden> · Pinyo <b class="hud__found">0</b>/5</span></span>
       <span class="hud__bar"><span class="hud__fill"></span></span>
     </div>
   </div>
@@ -90,10 +94,11 @@
         </p>
         <p>Пока родителей не было, вечеринка вышла из-под контроля. Убери дом до их возвращения — и выясни, куда сбежала пиньята.</p>
         <div class="hero__actions">
-          <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода — на игру) -->
-          <a class="btn btn--candy" href="#">Следить за выходом</a>
+          <!-- Группа студии в Roblox; после выхода — ссылка на игру -->
+          <a class="btn btn--candy" href="https://www.roblox.com/communities/419500321/Arozy-Team#!/about" target="_blank" rel="noopener">Следить за выходом</a>
           <a class="btn btn--ghost" href="#story">Что случилось?</a>
         </div>
+        <p class="hero__hunt">А ещё Pinyo спряталась на странице 5 раз. Найдёшь?</p>
       </div>
 
       <img class="blower-cursor" src="assets/icons/tool_blower.webp" alt="" width="320" height="320" aria-hidden="true">
@@ -182,6 +187,7 @@
             <span class="photo__label">двор</span>
           </li>
           <li class="photo photo--kitchen">
+            <button class="peek" type="button" data-peek="1" style="--px: 40%" aria-label="Это же Pinyo! Поймать"><span class="peek__clip"><img src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000" loading="lazy"></span></button>
             <button class="shot" type="button" data-shot="kitchen" data-caption="Кухня-гостиная">
               <img src="assets/shots/kitchen.webp" alt="Кухня-гостиная: голубые диваны, гирлянда флажков и весь пол в разноцветном мусоре" width="1687" height="657" loading="lazy">
             </button>
@@ -270,6 +276,7 @@
       <div class="wrap clues__layout">
         <div class="journal">
           <span class="tape tape--top" aria-hidden="true"></span>
+          <button class="peek peek--flip" type="button" data-peek="4" style="--px: 76%" aria-label="Это же Pinyo! Поймать"><span class="peek__clip"><img src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000" loading="lazy"></span></button>
           <p class="journal__date">Журнал. Кто всё это устроил?</p>
           <h2 class="journal__title" id="clues-title">Улики</h2>
           <p class="journal__text">За Pinyo тянется след из конфетти и фантиков. Найди все 9 улик — и узнаешь, что случилось на самом деле.</p>
@@ -309,10 +316,11 @@
           <li class="timer timer--90"><b>90</b><span>минут</span></li>
           <li class="timer timer--60"><b>60</b><span>минут</span></li>
           <li class="timer timer--30"><b>30</b><span>минут</span></li>
-          <li class="timer timer--20"><b>20</b><span>минут</span></li>
+          <li class="timer timer--20 peek-host"><button class="peek peek--flip" type="button" data-peek="2" style="--px: 4%" aria-label="Это же Pinyo! Поймать"><span class="peek__clip"><img src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000" loading="lazy"></span></button><b>20</b><span>минут</span></li>
         </ol>
 
-        <div class="coop">
+        <div class="coop peek-host">
+          <button class="peek" type="button" data-peek="3" style="--px: 8%" aria-label="Это же Pinyo! Поймать"><span class="peek__clip"><img src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000" loading="lazy"></span></button>
           <figure class="coop__pic">
             <img src="assets/comics/intro_3.webp" alt="Трое друзей с подарками бегут в дом" width="1600" height="900" loading="lazy">
           </figure>
@@ -352,7 +360,8 @@
             </ol>
           </div>
 
-          <div class="faq" id="faq">
+          <div class="faq peek-host" id="faq">
+            <button class="peek" type="button" data-peek="5" style="--px: 70%" aria-label="Это же Pinyo! Поймать"><span class="peek__clip"><img src="assets/pinyo/pinyo_three_quarter.webp" alt="" width="672" height="1000" loading="lazy"></span></button>
             <h3 class="faq__title">Частые вопросы</h3>
             <details class="faq__item">
               <summary>Бесплатна ли игра?</summary>
@@ -384,8 +393,8 @@
       <div class="finale__inner wrap">
         <h2 class="finale__title" id="finale-title">Дом чист. Почти.</h2>
         <p class="finale__text">Party Cleanup! скоро выйдет в Roblox. Подпишись, чтобы узнать первым.</p>
-        <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу (после выхода — на игру и текст «Играть в Roblox») -->
-        <a class="btn btn--candy btn--lg" href="#">Следить за выходом</a>
+        <!-- Группа студии в Roblox; после выхода — ссылка на игру и текст «Играть в Roblox» -->
+        <a class="btn btn--candy btn--lg" href="https://www.roblox.com/communities/419500321/Arozy-Team#!/about" target="_blank" rel="noopener">Следить за выходом</a>
         <div class="finale__bags" aria-hidden="true">
           <img src="assets/icons/icon_bag.webp" alt="" width="320" height="320" loading="lazy">
           <img src="assets/icons/upgrade_bag.webp" alt="" width="320" height="320" loading="lazy">
@@ -402,10 +411,7 @@
     <div class="wrap footer__inner">
       <p class="footer__logo">Party Cleanup!</p>
       <ul class="footer__links">
-        <!-- ЗАМЕНИТЬ: href="#" на ссылку на Roblox-группу -->
-        <li><a href="#">Группа в Roblox</a></li>
-        <!-- ЗАМЕНИТЬ: href="#" на приглашение в Discord -->
-        <li><a href="#">Discord</a></li>
+        <li><a href="https://www.roblox.com/communities/419500321/Arozy-Team#!/about" target="_blank" rel="noopener">Группа в Roblox</a></li>
       </ul>
       <p class="footer__copy">© 2026 Party Cleanup!<br>Игра не является официальным продуктом Roblox Corporation.</p>
     </div>

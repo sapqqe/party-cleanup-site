@@ -292,6 +292,7 @@
   var hud = document.querySelector('.hud');
   var hudValue = hud.querySelector('.hud__value');
   var hudFill = hud.querySelector('.hud__fill');
+  var headerFill = document.querySelector('.header__fill'); // на телефоне вместо HUD
   var lastPct = -1;
   var hudTimer = 0;
 
@@ -303,6 +304,7 @@
     lastPct = pct;
     hudValue.textContent = pct === 100 ? 'всё!' : pct + '%';
     hudFill.style.transform = 'scaleX(' + pct / 100 + ')';
+    headerFill.style.transform = 'scaleX(' + pct / 100 + ')';
     hud.classList.toggle('is-done', pct === 100);
   }
 
@@ -324,6 +326,102 @@
       hud.classList.toggle('is-over-finale', entries[0].isIntersecting);
     }, { rootMargin: '0px 0px -40% 0px' }).observe(document.querySelector('.finale'));
   }
+
+  /* ---------- Мини-игра «Найди Pinyo» ---------- */
+  var peeks = Array.prototype.slice.call(document.querySelectorAll('.peek'));
+  var toast = document.querySelector('.toast');
+  var hudPinyo = hud.querySelector('.hud__pinyo');
+  var hudFound = hud.querySelector('.hud__found');
+  var found = 0;
+  var seenPinyo = false;
+  var toastTimer = 0;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  function say(text, win) {
+    toast.textContent = text;
+    toast.classList.toggle('is-win', !!win);
+    toast.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, win ? 5000 : Math.max(2200, text.length * 55));
+  }
+
+  // хлопушка из конфетти в точке x, y
+  function boom(x, y, count) {
+    if (reduceMotion) return;
+    var colors = ['#ff3d9a', '#ffd23f', '#3ec5ff', '#8ddc2a', '#fff'];
+    for (var i = 0; i < count; i++) {
+      var bit = document.createElement('span');
+      bit.className = 'boom';
+      bit.style.left = x + 'px';
+      bit.style.top = y + 'px';
+      bit.style.background = colors[i % colors.length];
+      document.body.appendChild(bit);
+      var a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 110;
+      bit.animate([
+        { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + Math.cos(a) * d + 'px, ' + (Math.sin(a) * d + 60) + 'px) rotate(' + (Math.random() * 720 - 360) + 'deg)', opacity: 0 }
+      ], { duration: 700 + Math.random() * 400, easing: 'cubic-bezier(.2, .7, .4, 1)' }).onfinish = (function (el) {
+        return function () { el.remove(); };
+      })(bit);
+    }
+  }
+
+  // выглядывает, когда место появилось на экране
+  if ('IntersectionObserver' in window) {
+    var peekIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var peek = entry.target;
+        setTimeout(function () {
+          if (peek.classList.contains('is-found')) return;
+          peek.classList.add('is-up');
+          // первая встреча — подсказываем, что это игра
+          if (!seenPinyo && !found) { seenPinyo = true; say('Ой, это же Pinyo! Она спряталась на странице 5 раз — лови!'); }
+        }, 500);
+        peekIo.unobserve(peek);
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    peeks.forEach(function (peek) { peekIo.observe(peek); });
+  } else {
+    peeks.forEach(function (peek) { peek.classList.add('is-up'); });
+  }
+
+  // Pinyo пугливая: курсор близко — прячется и через секунду выглядывает снова
+  if (finePointer && !reduceMotion) {
+    window.addEventListener('pointermove', function (e) {
+      peeks.forEach(function (peek) {
+        if (!peek.classList.contains('is-up') || peek.classList.contains('is-shy') || peek.classList.contains('is-found')) return;
+        var r = peek.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        if (dx * dx + dy * dy > 150 * 150) return;
+        peek.classList.add('is-shy');
+        setTimeout(function () { peek.classList.remove('is-shy'); }, 1100);
+      });
+    }, { passive: true });
+  }
+
+  peeks.forEach(function (peek) {
+    peek.addEventListener('click', function () {
+      if (peek.classList.contains('is-found')) return;
+      peek.classList.add('is-found');
+      found++;
+      var r = peek.getBoundingClientRect();
+      boom(r.left + r.width / 2, r.top + r.height / 2, found === peeks.length ? 60 : 18);
+      var img = peek.querySelector('img');
+      var hide = function () { peek.style.visibility = 'hidden'; };
+      if (reduceMotion) hide();
+      else img.animate([
+        { transform: 'translateY(0)' },
+        { transform: 'translateY(-22%)', offset: 0.35 },
+        { transform: 'translateY(45%)' }
+      ], { duration: 600, easing: 'ease-in', fill: 'forwards' }).onfinish = hide;
+
+      hudPinyo.hidden = false;
+      hudFound.textContent = found;
+      if (found === peeks.length) say('Все 5! В игре Pinyo прячется куда хитрее — проверишь на выходе.', true);
+      else say('Pinyo поймана! ' + found + ' из ' + peeks.length + '. Ищи дальше.');
+    });
+  });
 
   /* ---------- Сцены прокрутки (GSAP) ---------- */
   if (!hasGsap || reduceMotion) return;
