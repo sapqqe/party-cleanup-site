@@ -1,0 +1,46 @@
+# Автоматическая публикация сайта Party Cleanup! на GitHub Pages.
+# Запускается сам при каждом push в ветку main.
+
+name: Deploy static site   # название workflow на вкладке Actions
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:       # кнопка ручного запуска на вкладке Actions
+
+# Права, которые нужны для публикации на GitHub Pages
+permissions:
+  contents: read    # читать файлы репозитория
+  pages: write      # публиковать в Pages
+  id-token: write   # токен, которым Pages проверяет, что деплой настоящий
+
+# Если push пришёл во время публикации, новая публикация ждёт, а не обрывает старую
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest   # виртуальная машина, на которой всё выполняется
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}   # ссылка на сайт в итогах запуска
+    steps:
+      # 1. Скопировать файлы репозитория на виртуальную машину
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # 2. Подготовить GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      # 3. Упаковать сайт в архив-артефакт ('.' = вся папка проекта)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: '.'
+
+      # 4. Опубликовать артефакт на GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
