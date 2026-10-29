@@ -244,7 +244,7 @@ button { font: inherit; color: inherit; }
   rotate: -2deg;
 }
 .bubble {
-  position: absolute; z-index: 2;
+  position: absolute; z-index: 3; /* поверх подписи кадра */
   padding: 14px 22px 16px;
   background: var(--white); color: #000;
   border-radius: 50%;
@@ -266,7 +266,7 @@ button { font: inherit; color: inherit; }
 .panel--5 img { object-position: 88% 50%; }
 .story--h .panel--5 .bubble--l { right: auto; left: 8%; top: 14%; --tail-x: 45%; --tail-dir: 1; }
 .sfx {
-  position: absolute; right: 6%; top: 6%; z-index: 2;
+  position: absolute; right: 6%; top: 6%; z-index: 3;
   font-weight: 900; font-size: clamp(36px, 4.4vw, 68px); line-height: 1;
   color: var(--yellow); -webkit-text-stroke: .12em #000; paint-order: stroke fill;
   rotate: 10deg;
